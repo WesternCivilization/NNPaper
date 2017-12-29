@@ -47,18 +47,18 @@ function WelcomeScene:onCreate()
     --     :setVisible(yl and not yl.APPSTORE_VERSION)
     --     :addTo(self)
 
-    --animal
-    local animal = cc.Sprite:create("base/res/animal.png")
-        :setAnchorPoint(0.5, 0)
-        :setPosition(appdf.WIDTH / 2 + 45, 0)
-        :addTo(self)
+    -- --animal
+    -- local animal = cc.Sprite:create("base/res/animal.png")
+    --     :setAnchorPoint(cc.p(0.5,0))
+    --     :move(appdf.WIDTH / 2 + 45, 0)
+    --     :addTo(self)
 
 
-    -- local spine = SpineEffect.new("denglu",self)
-    -- spine:setPosition(animal:getPosition())
-    -- local spine = sp.SkeletonAnimation:createWithData("base/res/spine/denglu.json", "base/res/spine/denglu.atlas")
-    -- spine:setPosition(600, 300)
-    -- spine:setAnimation(0, "animation", false)
+
+       local spine = sp.SkeletonAnimation:create("base/res/spine/denglu/denglu.json", "base/res/spine/denglu/denglu.atlas",1)
+       spine:addTo(self)
+       spine:move(appdf.WIDTH / 2 , 0)
+       spine:setAnimation(0, "animation", true)
 
 
     --tip image
@@ -94,7 +94,6 @@ function WelcomeScene:onCreate()
         :setTag(WelcomeScene.BT_REG)
         :addTo(self)
         :addTouchEventListener(btcallback)
-
 
     local size = tipImg:getContentSize()
     --提示文本
