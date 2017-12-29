@@ -1,7 +1,7 @@
 require("base.src.app.models.bit")
 require("base.src.app.models.AppDF")
 require("base.src.app.Toolkits.TimerProxy") --added ycc
-require("base.src.app.Toolkits.SpineEffect") 
+-- require("base.src.app.Toolkits.SpineEffect") 
 appdf.req("base.src.app.views.layer.other.Toast")
 cjson = require("cjson")
 

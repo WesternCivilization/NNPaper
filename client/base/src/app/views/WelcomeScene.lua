@@ -49,12 +49,16 @@ function WelcomeScene:onCreate()
 
     --animal
     local animal = cc.Sprite:create("base/res/animal.png")
-        :setPosition(appdf.WIDTH / 2, appdf.HEIGHT / 2)
+        :setAnchorPoint(0.5, 0)
+        :setPosition(appdf.WIDTH / 2 + 45, 0)
         :addTo(self)
 
 
-    local spine = SpineEffect.new("denglu",self)
-    spine:setPosition(animal:getPosition())
+    -- local spine = SpineEffect.new("denglu",self)
+    -- spine:setPosition(animal:getPosition())
+    -- local spine = sp.SkeletonAnimation:createWithData("base/res/spine/denglu.json", "base/res/spine/denglu.atlas")
+    -- spine:setPosition(600, 300)
+    -- spine:setAnimation(0, "animation", false)
 
 
     --tip image
