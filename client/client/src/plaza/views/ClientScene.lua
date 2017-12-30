@@ -116,37 +116,40 @@ function ClientScene:onCreate()
 	--加载csb资源
 	local rootLayer, csbNode = ExternalFun.loadRootCSB( "plaza/PlazaLayer.csb", self )
     local timeline = ExternalFun.loadTimeLine( "plaza/PlazaLayer.csb" )
-    local areaTop = csbNode:getChildByName("area_top"):setLocalZOrder(ZORDER.TOP_BAR)
-    local areaBottom = csbNode:getChildByName("area_bottom"):setLocalZOrder(ZORDER.BOTTOM_BAR)
-    local areaRank = csbNode:getChildByName("area_rank"):setLocalZOrder(ZORDER.RANK_LIST)
-    local areaCategory = csbNode:getChildByName("area_category"):setLocalZOrder(ZORDER.CATEGORY_LIST)
-    local areaTrumpet = csbNode:getChildByName("area_trumpet"):setLocalZOrder(ZORDER.TRUMPET)
+    -- local areaTop = csbNode:getChildByName("area_top"):setLocalZOrder(ZORDER.TOP_BAR)
+    -- local areaRank = csbNode:getChildByName("area_rank"):setLocalZOrder(ZORDER.RANK_LIST)
+    -- local areaCategory = csbNode:getChildByName("area_category"):setLocalZOrder(ZORDER.CATEGORY_LIST)
+    -- local areaTrumpet = csbNode:getChildByName("area_trumpet"):setLocalZOrder(ZORDER.TRUMPET)
+
+    self._areaBottom = csbNode:getChildByName("sp_bottom"):setLocalZOrder(ZORDER.BOTTOM_BAR)
+    self._bggold = self._areaBottom:getChildByName("bg_gold")
+    self._bgbean = self._areaBottom:getChildByName("bg_bean")
 
     self._layout = csbNode
-    self._areaTop = areaTop
-    self._areaBottom = areaBottom
-    self._areaRank = areaRank
-    self._areaCategory = areaCategory
-    self._areaTrumpet = areaTrumpet
+    -- self._areaTop = areaTop
+    -- self._areaBottom = areaBottom
+    -- self._areaRank = areaRank
+    -- self._areaCategory = areaCategory
+    -- self._areaTrumpet = areaTrumpet
 
     --播放时间轴动画
     csbNode:runAction(timeline)
     timeline:gotoFrameAndPlay(0, true)
 
     --logo
-    local logo = areaTop:getChildByName("sp_logo")
+    local logo = csbNode:getChildByName("sp_logo")
     if yl.APPSTORE_VERSION then
         logo:setTexture("plaza/sp_logo_appstore.png")
     end
 
     --返回按钮
-    self._btnBack = areaTop:getChildByName("btn_back")
+    self._btnBack = csbNode:getChildByName("btn_back")
     self._btnBack:setVisible(false)
                  :addClickEventListener(function() self:onClickBack() end)
 
-    --滚动喇叭
-    self._txtTrumpet = areaTrumpet:getChildByName("panel_trumpet"):getChildByName("txt_trumpet")
-    self._txtTrumpet:setString("")
+    -- --滚动喇叭
+    -- self._txtTrumpet = areaTrumpet:getChildByName("panel_trumpet"):getChildByName("txt_trumpet")
+    -- self._txtTrumpet:setString("")
 
     --游戏列表
     self._gameListLayer = GameListLayer:create(self)
@@ -165,69 +168,80 @@ function ClientScene:onCreate()
     self._roomLayer = RoomLayer:create(self):setVisible(false)
                                         :addTo(self._layout, ZORDER.ROOM)
 
-    --排行榜分类按钮
-    self._rankCategoryBtns = {}
-    for i = 1, 2 do
-        local btnRankCategory = areaRank:getChildByName("btn_rank_category_" .. i)
-        btnRankCategory:addEventListener(function(ref, type)
-            self:onClickRankCategory(i)
-        end)
+    -- --排行榜分类按钮
+    -- self._rankCategoryBtns = {}
+    -- for i = 1, 2 do
+    --     local btnRankCategory = areaRank:getChildByName("btn_rank_category_" .. i)
+    --     btnRankCategory:addEventListener(function(ref, type)
+    --         self:onClickRankCategory(i)
+    --     end)
 
-        self._rankCategoryBtns[i] = btnRankCategory
-    end
+    --     self._rankCategoryBtns[i] = btnRankCategory
+    -- end
 
-    self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
+    -- self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
 
-    --排行榜列表
-    self._rankListLayer = RankingListLayer:create(cc.size(300, 410))
-                                :setDelegate(self)
-                                :setAnchorPoint(0, 0)
-                                :setPosition(9, 75)
-                                :addTo(areaRank)
+    -- --排行榜列表
+    -- self._rankListLayer = RankingListLayer:create(cc.size(300, 410))
+    --                             :setDelegate(self)
+    --                             :setAnchorPoint(0, 0)
+    --                             :setPosition(9, 75)
+    --                             :addTo(areaRank)
 
-    --游戏分类按钮
-    self._gameCategoryBtns = {}
-    for i = 1, 4 do
-        local btnGameCategory = areaCategory:getChildByName("btn_category_" .. i)
-        btnGameCategory:addEventListener(function(ref, type)
-            self:onClickGameCategory(i, true)
-        end)
+    -- --游戏分类按钮
+    -- self._gameCategoryBtns = {}
+    -- for i = 1, 4 do
+    --     local btnGameCategory = areaCategory:getChildByName("btn_category_" .. i)
+    --     btnGameCategory:addEventListener(function(ref, type)
+    --         self:onClickGameCategory(i, true)
+    --     end)
 
-        self._gameCategoryBtns[i] = btnGameCategory
-    end
+    --     self._gameCategoryBtns[i] = btnGameCategory
+    -- end
 
-    --活动按钮
-    local btnActivity = self._areaTop:getChildByName("btn_activity")
-    btnActivity:setVisible(not yl.APPSTORE_VERSION)
-    btnActivity:addClickEventListener(function()
+    -- --活动按钮
+    -- local btnActivity = self._areaTop:getChildByName("btn_activity")
+    -- btnActivity:setVisible(not yl.APPSTORE_VERSION)
+    -- btnActivity:addClickEventListener(function()
 
-        --播放音效
-        ExternalFun.playClickEffect()
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
 
-        --QueryDialog:create("活动暂未开放，请持续关注游戏动态！", nil, nil, QueryDialog.QUERY_SURE):addTo(self)
+    --     --QueryDialog:create("活动暂未开放，请持续关注游戏动态！", nil, nil, QueryDialog.QUERY_SURE):addTo(self)
 
-        showPopupLayer(ActivityLayer:create())
-    end)
+    --     showPopupLayer(ActivityLayer:create())
+    -- end)
 
-    --福利按钮
-    local btnWelfare = self._areaTop:getChildByName("btn_welfare")
-    btnWelfare:setVisible(not yl.APPSTORE_VERSION)
-    btnWelfare:addClickEventListener(function()
+    -- --福利按钮
+    -- local btnWelfare = self._areaTop:getChildByName("btn_welfare")
+    -- btnWelfare:setVisible(not yl.APPSTORE_VERSION)
+    -- btnWelfare:addClickEventListener(function()
 
-        --播放音效
-        ExternalFun.playClickEffect()
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
 
-        showPopupLayer(WelfareLayer:create())
-    end)
+    --     showPopupLayer(WelfareLayer:create())
+    -- end)
 
-    --福利动画
-    local aniWelfare = self._areaTop:getChildByName("sp_welfare_ani")
-    aniWelfare:setVisible(not yl.APPSTORE_VERSION)
+    -- --福利动画
+    -- local aniWelfare = self._areaTop:getChildByName("sp_welfare_ani")
+    -- aniWelfare:setVisible(not yl.APPSTORE_VERSION)
 
-    --公告按钮
-    local btnNotice = self._areaTop:getChildByName("btn_notice")
-    btnNotice:setVisible(not yl.APPSTORE_VERSION)
-    btnNotice:addClickEventListener(function()
+    -- --公告按钮
+    -- local btnNotice = self._areaTop:getChildByName("btn_notice")
+    -- btnNotice:setVisible(not yl.APPSTORE_VERSION)
+    -- btnNotice:addClickEventListener(function()
+
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
+
+    --     showPopupLayer(NoticeLayer:create())
+    -- end)    
+
+    -- --签到按钮
+    local btnSign = self._layout:getChildByName("btn_sign")
+    btnSign:setVisible(not yl.APPSTORE_VERSION)
+    btnSign:addClickEventListener(function()
 
         --播放音效
         ExternalFun.playClickEffect()
@@ -235,8 +249,52 @@ function ClientScene:onCreate()
         showPopupLayer(NoticeLayer:create())
     end)
 
+    --分享按钮
+    local btnShare = self._layout:getChildByName("btn_share")
+    btnShare:setVisible(not yl.APPSTORE_VERSION)
+    btnShare:addClickEventListener(function()
+
+        --播放音效
+        ExternalFun.playClickEffect()
+
+        -- 插入一段分享有礼
+        local function sharecall( isok )
+            if type(isok) == "string" and isok == "true" then
+                showToast(nil, "分享成功", 2)
+                --获取奖励
+                local ostime = os.time()
+                local url = yl.HTTP_URL .. "/WS/MobileInterface.ashx"
+                local param = "action=GetMobileShare&userid=" .. GlobalUserItem.dwUserID .. "&time=".. ostime .. "&signature=".. GlobalUserItem:getSignature(ostime) .. "&machineid=" .. GlobalUserItem.szMachine
+                appdf.onHttpJsionTable(url ,"GET", param, function(jstable,jsdata)
+
+                    GlobalUserItem.setTodayShare()
+                        
+                    if type(jstable) == "table" then
+                        local data = jstable["data"]
+                        local msg = jstable["msg"]
+                        if type(data) == "table" and type(msg) == "string" and "" ~= msg then
+                            GlobalUserItem.lUserScore = data["Score"] or GlobalUserItem.lUserScore
+                            --通知更新        
+                            local eventListener = cc.EventCustom:new(yl.RY_USERINFO_NOTIFY)
+                            eventListener.obj = yl.RY_MSG_USERWEALTH
+                            cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventListener)
+
+                            if type(msg) == "string" and "" ~= msg then
+                                showToast(nil, msg, 2)
+                            end                         
+                        end
+                    end
+                        
+                end)
+            end
+        end
+        local url = GlobalUserItem.szWXSpreaderURL or yl.HTTP_URL
+        MultiPlatform:getInstance():customShare(sharecall, nil, nil, url, "")
+
+    end)
+
     --客服按钮
-    local btnService = self._areaTop:getChildByName("btn_service")
+    local btnService = self._layout:getChildByName("btn_service")
     btnService:setVisible(not yl.APPSTORE_VERSION)
     btnService:addClickEventListener(function()
 
@@ -246,18 +304,8 @@ function ClientScene:onCreate()
         CustomerServiceLayer:create():addTo(self)
     end)
 
-    --设置按钮
-    local btnSetting = self._areaTop:getChildByName("btn_setting")
-    btnSetting:addClickEventListener(function()
-
-        --播放音效
-        ExternalFun.playClickEffect()
-
-        showPopupLayer(OptionLayer:create(self))
-    end)
-
     --商城按钮
-    local btnShop = self._areaBottom:getChildByName("btn_shop")
+    local btnShop = self._layout:getChildByName("btn_shop")
     btnShop:addClickEventListener(function()
 
         --播放音效
@@ -266,21 +314,31 @@ function ClientScene:onCreate()
         ShopLayer:create():addTo(self)
     end)
 
-    --银行按钮
-    local btnBank = self._areaBottom:getChildByName("btn_bank")
-    btnBank:addClickEventListener(function()
+    --设置按钮
+    local btnSetting = self._layout:getChildByName("btn_setting")
+    btnSetting:addClickEventListener(function()
 
         --播放音效
         ExternalFun.playClickEffect()
 
-        if GlobalUserItem.cbInsureEnabled == 0 then
-            showPopupLayer(BankEnableLayer:create(function()
-                BankLayer:create():addTo(self)
-            end))
-        else
-            BankLayer:create():addTo(self)
-        end
+        showPopupLayer(OptionLayer:create(self))
     end)
+
+    -- --银行按钮
+    -- local btnBank = self._layout:getChildByName("btn_bank")
+    -- btnBank:addClickEventListener(function()
+
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
+
+    --     if GlobalUserItem.cbInsureEnabled == 0 then
+    --         showPopupLayer(BankEnableLayer:create(function()
+    --             BankLayer:create():addTo(self)
+    --         end))
+    --     else
+    --         BankLayer:create():addTo(self)
+    --     end
+    -- end)
 
     --头像按钮
     local btnAvatar = self._areaBottom:getChildByName("btn_avatar")
@@ -289,50 +347,64 @@ function ClientScene:onCreate()
         self:onClickAvatar()
     end)
 
-    --复制ID
-    local btnCopyID = self._areaBottom:getChildByName("btn_copyid")
-    btnCopyID:addClickEventListener(function()
+    --更多按钮
+    local btnMore = self._areaBottom:getChildByName("btn_more")
+    btnMore:addClickEventListener(function()
         
-        --播放音效
-        ExternalFun.playClickEffect()
-
-        MultiPlatform:getInstance():copyToClipboard("昵称："..GlobalUserItem.szNickName.."，ID："..GlobalUserItem.dwGameID)
-        showToast(nil, "已复制到剪贴板", 2)
+        self:onClickAvatar()
     end)
 
-    --推荐人
-    local btnSpreader = self._areaBottom:getChildByName("btn_spreader")
-    btnSpreader:addClickEventListener(function()
+    --比赛按钮
+    local btnFight = self._areaBottom:getChildByName("btn_fight")
+    btnFight:addClickEventListener(function()
         
-        --播放音效
-        ExternalFun.playClickEffect()
-
-        showPopupLayer(MySpreaderLayer:create())
+        self:onClickAvatar()
     end)
 
-    --增加游戏币按钮
-    local btnAddGold = self._areaBottom:getChildByName("area_gold_info"):getChildByName("btn_add_gold")
-    btnAddGold:addClickEventListener(function()
-
-        --播放音效
-        ExternalFun.playClickEffect()
-
-        ShopLayer:create(2):addTo(self)
-    end)
-
-    --增加游戏豆按钮
-    local btnAddBean = self._areaBottom:getChildByName("area_bean_info"):getChildByName("btn_add_bean")
-    btnAddBean:addClickEventListener(function()
+    -- --复制ID
+    -- local btnCopyID = self._areaBottom:getChildByName("btn_copyid")
+    -- btnCopyID:addClickEventListener(function()
         
-        --播放音效
-        ExternalFun.playClickEffect()
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
 
-        ShopLayer:create(1):addTo(self)
-    end)
+    --     MultiPlatform:getInstance():copyToClipboard("昵称："..GlobalUserItem.szNickName.."，ID："..GlobalUserItem.dwGameID)
+    --     showToast(nil, "已复制到剪贴板", 2)
+    -- end)
+
+    -- --推荐人
+    -- local btnSpreader = self._areaBottom:getChildByName("btn_spreader")
+    -- btnSpreader:addClickEventListener(function()
+        
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
+
+    --     showPopupLayer(MySpreaderLayer:create())
+    -- end)
+
+    -- --增加游戏币按钮
+    -- local btnAddGold = self._areaBottom:getChildByName("area_gold_info"):getChildByName("btn_add_gold")
+    -- btnAddGold:addClickEventListener(function()
+
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
+
+    --     ShopLayer:create(2):addTo(self)
+    -- end)
+
+    -- --增加游戏豆按钮
+    -- local btnAddBean = self._areaBottom:getChildByName("area_bean_info"):getChildByName("btn_add_bean")
+    -- btnAddBean:addClickEventListener(function()
+        
+    --     --播放音效
+    --     ExternalFun.playClickEffect()
+
+    --     ShopLayer:create(1):addTo(self)
+    -- end)
 
     --保存初始坐标(动画用)
-    self._ptAreaRank = cc.p(self._areaRank:getPosition())
-    self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
+    -- self._ptAreaRank = cc.p(self._areaRank:getPosition())
+    -- self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
     self._ptGameListLayer = cc.p(self._gameListLayer:getPosition())
 
     --更新用户信息
@@ -405,7 +477,7 @@ function ClientScene:onUpdateUserInfo()
         HeadSprite:createClipHead(GlobalUserItem, 64, "sp_avatar_mask_64.png")
               :setPosition(avatarFrame:getPosition())
               :setName("sp_avatar")
-              :addTo(self._areaBottom, avatarFrame:getLocalZOrder() - 1)
+              :addTo(self._areaBottom, avatarFrame:getLocalZOrder() + 1)
     end
 
     --玩家昵称
@@ -424,11 +496,11 @@ end
 function ClientScene:onUpdateScoreInfo()
 
     --游戏币
-    local txtGold = self._areaBottom:getChildByName("area_gold_info"):getChildByName("txt_gold")
+    local txtGold = self._areaBottom:getChildByName("bg_gold"):getChildByName("txt_gold")
     txtGold:setString(ExternalFun.numberThousands(GlobalUserItem.lUserScore))
 
     --游戏豆
-    local txtBean = self._areaBottom:getChildByName("area_bean_info"):getChildByName("txt_bean")
+    local txtBean = self._areaBottom:getChildByName("bg_bean"):getChildByName("txt_bean")
     txtBean:setString(ExternalFun.numberThousands(GlobalUserItem.dUserBeans))
 end
 
@@ -438,9 +510,9 @@ function ClientScene:onUpdateOnlineCount()
     local onlineCount = GlobalUserItem.getRealOnlineCount()
     onlineCount = onlineCount + GlobalUserItem.OnlineBaseCount + math.random(0, 50)
 
-    --在线人数
-    local txtOnlineCount = self._areaRank:getChildByName("area_online_count"):getChildByName("txt_online_count")
-    txtOnlineCount:setString("在线人数：" .. onlineCount)
+    -- --在线人数
+    -- local txtOnlineCount = self._areaRank:getChildByName("area_online_count"):getChildByName("txt_online_count")
+    -- txtOnlineCount:setString("在线人数：" .. onlineCount)
 end
 
 --点击排行榜分类
@@ -473,20 +545,20 @@ function ClientScene:onClickGameCategory(index, enableSound)
         ExternalFun.playClickEffect()
     end
 
-    for i = 1, #self._gameCategoryBtns do
-        self._gameCategoryBtns[i]:setSelected(index == i)
-    end
+    -- for i = 1, #self._gameCategoryBtns do
+    --     self._gameCategoryBtns[i]:setSelected(index == i)
+    -- end
 
-    --防止重复执行
-    if index == self._gameCategoryIndex then
-        return
-    end
-    self._gameCategoryIndex = index
+    -- --防止重复执行
+    -- if index == self._gameCategoryIndex then
+    --     return
+    -- end
+    -- self._gameCategoryIndex = index
 
-    print("切换游戏分类", index)
+    -- print("切换游戏分类", index)
 
-    --更新游戏列表
-    self._gameListLayer:updateGameList(self._gameLists[index])
+    -- --更新游戏列表
+    -- self._gameListLayer:updateGameList(self._gameLists[index])
 
 --    --切换动画
 --    self._gameListLayer:stopAllActions()
@@ -555,17 +627,17 @@ function ClientScene:onClickBack()
         self._btnBack:setVisible(false)
 
         --显示喇叭
-        self._areaTrumpet:setVisible(true)
+        -- self._areaTrumpet:setVisible(true)
 
-        --停止动画
-        self._areaRank:stopAllActions()
-        self._areaCategory:stopAllActions()
-        self._gameListLayer:stopAllActions()
+        -- --停止动画
+        -- self._areaRank:stopAllActions()
+        -- self._areaCategory:stopAllActions()
+        -- self._gameListLayer:stopAllActions()
         self._roomListLayer:stopAllActions()
 
         --执行动画
-        AnimationHelper.jumpInTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x, self._ptAreaRank.y), 6, 0)
-        AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
+        -- AnimationHelper.jumpInTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x, self._ptAreaRank.y), 6, 0)
+        -- AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
         AnimationHelper.jumpInTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x, self._ptGameListLayer.y), -6, 0)
 
         AnimationHelper.moveOutTo(self._roomListLayer, 0.2, cc.p(0, -100))
@@ -609,17 +681,17 @@ function ClientScene:onClickGame(wKindID)
     self._btnBack:setVisible(true)
 
     --隐藏喇叭
-    self._areaTrumpet:setVisible(false)
+    -- self._areaTrumpet:setVisible(false)
 
     --重置状态
-    self._areaRank:setPosition(self._ptAreaRank):stopAllActions()
-    self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
+    -- self._areaRank:setPosition(self._ptAreaRank):stopAllActions()
+    -- self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
     self._gameListLayer:setPosition(self._ptGameListLayer):stopAllActions()
     self._roomListLayer:setPosition(0, -100):setOpacity(0):setVisible(true):stopAllActions()
 
     --执行动画
-    AnimationHelper.moveOutTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x - 500, self._ptAreaRank.y))
-    AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
+    -- AnimationHelper.moveOutTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x - 500, self._ptAreaRank.y))
+    -- AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
     AnimationHelper.moveOutTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x + 1200, self._ptGameListLayer.y))
 
     AnimationHelper.jumpInTo(self._roomListLayer, 0.4, cc.p(0, 0), 0, 6)
@@ -741,31 +813,59 @@ end
 
 --缓存公共资源
 function ClientScene:cachePublicRes(  )
-	cc.SpriteFrameCache:getInstance():addSpriteFrames("public/public.plist")
-	local dict = cc.FileUtils:getInstance():getValueMapFromFile("public/public.plist")
+	-- cc.SpriteFrameCache:getInstance():addSpriteFrames("public/public.plist")
+	-- local dict = cc.FileUtils:getInstance():getValueMapFromFile("public/public.plist")
 
-	local framesDict = dict["frames"]
-	if nil ~= framesDict and type(framesDict) == "table" then
-		for k,v in pairs(framesDict) do
-			local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(k)
-			if nil ~= frame then
-				frame:retain()
-			end
-		end
-	end
+	-- local framesDict = dict["frames"]
+	-- if nil ~= framesDict and type(framesDict) == "table" then
+	-- 	for k,v in pairs(framesDict) do
+	-- 		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(k)
+	-- 		if nil ~= frame then
+	-- 			frame:retain()
+	-- 		end
+	-- 	end
+	-- end
 
-	cc.SpriteFrameCache:getInstance():addSpriteFrames("plaza/plaza.plist")	
-	dict = cc.FileUtils:getInstance():getValueMapFromFile("plaza/plaza.plist")
-	framesDict = dict["frames"]
-	if nil ~= framesDict and type(framesDict) == "table" then
-		for k,v in pairs(framesDict) do
-			local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(k)
-			if nil ~= frame then
-				frame:retain()
-			end
-		end
-	end
+	-- cc.SpriteFrameCache:getInstance():addSpriteFrames("plaza/plaza.plist")	
+	-- dict = cc.FileUtils:getInstance():getValueMapFromFile("plaza/plaza.plist")
+	-- framesDict = dict["frames"]
+	-- if nil ~= framesDict and type(framesDict) == "table" then
+	-- 	for k,v in pairs(framesDict) do
+	-- 		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(k)
+	-- 		if nil ~= frame then
+	-- 			frame:retain()
+	-- 		end
+	-- 	end
+	-- end
+
+
+    self:cachePlistRes("public/public.plist")
+    self:cachePlistRes("plaza/plaza.plist")
+    self:cachePlistRes("plaza/newPlaza.plist")
 end
+
+--缓存大图资源
+function ClientScene:cachePlistRes(url)
+    if url == nil then
+        print("大图资源 plist url is nil !!")
+        return 
+    end
+
+    cc.SpriteFrameCache:getInstance():addSpriteFrames(url)
+    local dict = cc.FileUtils:getInstance():getValueMapFromFile(url)
+
+    local framesDict = dict["frames"]
+    if nil ~= framesDict and type(framesDict) == "table" then
+        for k,v in pairs(framesDict) do
+            local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(k)
+            if nil ~= frame then
+                frame:retain()
+            end
+        end
+    end
+end
+
+
 
 --释放公共资源
 function ClientScene:releasePublicRes(  )
@@ -832,25 +932,25 @@ function ClientScene:requestRollNotice()
             end
         end
 
-        --更新内容
-        self._txtTrumpet:setString(contents)
+        -- --更新内容
+        -- self._txtTrumpet:setString(contents)
 
-        local containerWidth = self._txtTrumpet:getParent():getContentSize().width
-        local contentSize = self._txtTrumpet:getContentSize()
+        -- local containerWidth = self._txtTrumpet:getParent():getContentSize().width
+        -- local contentSize = self._txtTrumpet:getContentSize()
 
-        --初始化位置
-        self._txtTrumpet:setPosition(containerWidth, 15)
+        -- --初始化位置
+        -- self._txtTrumpet:setPosition(containerWidth, 15)
 
-        --更新动画
-        self._txtTrumpet:stopAllActions()
-        self._txtTrumpet:runAction(
-            cc.RepeatForever:create(
-                cc.Sequence:create(
-                    cc.CallFunc:create(function() self._txtTrumpet:setPosition(containerWidth, 15) end),
-                    cc.MoveBy:create(16.0 + contentSize.width / 172, cc.p(-contentSize.width - containerWidth, 0))
-                )
-            )
-        )
+    --     --更新动画
+    --     self._txtTrumpet:stopAllActions()
+    --     self._txtTrumpet:runAction(
+    --         cc.RepeatForever:create(
+    --             cc.Sequence:create(
+    --                 cc.CallFunc:create(function() self._txtTrumpet:setPosition(containerWidth, 15) end),
+    --                 cc.MoveBy:create(16.0 + contentSize.width / 172, cc.p(-contentSize.width - containerWidth, 0))
+    --             )
+    --         )
+    --     )
     end)
 end
 

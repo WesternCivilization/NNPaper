@@ -1,4 +1,4 @@
--- ³¡¾°ÉùÃ÷
+-- åœºæ™¯å£°æ˜
 --local GameScene = class("GameScene", cc.load("mvc").ViewBase)
 local GameScene = class("GameScene", ccui.Layout)
 
@@ -12,10 +12,10 @@ local HELP_BTN_NAME = "__introduce_help_button__"
 local VOICE_BTN_NAME = "__voice_record_button__"
 local VOICE_LAYER_NAME = "__voice_record_layer__"
 
--- ³õÊ¼»¯½çÃæ
+-- åˆå§‹åŒ–ç•Œé¢
 function GameScene:ctor(delegate)
     
-    --ÆÁ±Îºó·½´¥Ãş
+    --å±è”½åæ–¹è§¦æ‘¸
     self:setTouchEnabled(true)
     self:setContentSize(cc.Director:getInstance():getVisibleSize())
 
@@ -28,7 +28,7 @@ function GameScene:ctor(delegate)
         
         self:createGameLayer()
 	else
-		print("ÓÎÏ·¼ÇÂ¼´íÎó")
+		print("æ¸¸æˆè®°å½•é”™è¯¯")
 
         self:getApp():popScene()
 	end		
@@ -40,13 +40,13 @@ function GameScene:onExit()
 
     print("GameScene:onExit()")
 
-    --¹Ø±Õ¶¨Ê±Æ÷
+    --å…³é—­å®šæ—¶å™¨
     if self._gameLayer.KillGameClock then
         self._gameLayer:KillGameClock(true)
     end
 end
 
---·µ»Ø
+--è¿”å›
 function GameScene:onKeyBack()
 
     if self._delegate then
@@ -71,40 +71,40 @@ function GameScene:createGameLayer()
 end
 
 ------------------------------------------------------------------------------------------------------------
--- Êı¾İ½Ó¿Ú
+-- æ•°æ®æ¥å£
 
 function GameScene:getApp()
     return self._delegate._delegate:getApp()
 end
 
---»ñÈ¡ÓÎÏ·²ã
+--è·å–æ¸¸æˆå±‚
 function GameScene:getGameLayer()
     
     return self._gameLayer
 end
 
---»ñÈ¡µ±Ç°ÓÎÏ·ĞÅÏ¢
+--è·å–å½“å‰æ¸¸æˆä¿¡æ¯
 function GameScene:getEnterGameInfo()
     
     return GlobalUserItem.tabEnterGame
 end
 
 ------------------------------------------------------------------------------------------------------------
--- ½çÃæ½Ó¿Ú
+-- ç•Œé¢æ¥å£
 
---ÏÔÊ¾µÈ´ı»­Ãæ
+--æ˜¾ç¤ºç­‰å¾…ç”»é¢
 function GameScene:showPopWait()
 
     showPopWait()
 end
 
---È¡ÏûµÈ´ı»­Ãæ
+--å–æ¶ˆç­‰å¾…ç”»é¢
 function GameScene:dismissPopWait()
 
     dismissPopWait()
 end
 
---´´½¨°ïÖú°´Å¥
+--åˆ›å»ºå¸®åŠ©æŒ‰é’®
 function GameScene:createHelpBtn(pos, zorder, url, parent)
 	parent = parent or self
 	zorder = zorder or yl.ZORDER.Z_HELP_BUTTON
@@ -123,7 +123,7 @@ function GameScene:createHelpBtn(pos, zorder, url, parent)
     btn:addTouchEventListener(btncallback)
 end
 
---µ¯³ö°ïÖú²ã
+--å¼¹å‡ºå¸®åŠ©å±‚
 function GameScene:popHelpLayer( url, zorder)
 	zorder = zorder or yl.ZORDER.Z_HELP_WEBVIEW
 	local IntroduceLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.IntroduceLayer")
@@ -136,7 +136,7 @@ function GameScene:popHelpLayer( url, zorder)
 	end
 end
 
---´´½¨°ïÖú°´Å¥2
+--åˆ›å»ºå¸®åŠ©æŒ‰é’®2
 function GameScene:createHelpBtn2(pos, zorder, nKindId, nType, parent)
 	parent = parent or self
 	zorder = zorder or yl.ZORDER.Z_HELP_BUTTON
@@ -155,7 +155,7 @@ function GameScene:createHelpBtn2(pos, zorder, nKindId, nType, parent)
     btn:addTouchEventListener(btncallback)
 end
 
---µ¯³ö°ïÖú²ã2
+--å¼¹å‡ºå¸®åŠ©å±‚2
 function GameScene:popHelpLayer2( nKindId, nType, nZorder)
 	nZorder = nZorder or yl.ZORDER.Z_HELP_WEBVIEW
 	local IntroduceLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.IntroduceLayer")
@@ -170,7 +170,7 @@ function GameScene:popHelpLayer2( nKindId, nType, nZorder)
 	end
 end
 
---´´½¨Â¼Òô°´Å¥
+--åˆ›å»ºå½•éŸ³æŒ‰é’®
 function GameScene:createVoiceBtn(pos, zorder, parent)
 	parent = parent or self
 	zorder = zorder or yl.ZORDER.Z_VOICE_BUTTON
@@ -191,12 +191,12 @@ function GameScene:createVoiceBtn(pos, zorder, parent)
     btn:addTouchEventListener(btncallback)
 end
 
---¿ªÊ¼Â¼Òô
+--å¼€å§‹å½•éŸ³
 function GameScene:startVoiceRecord()
-	--·À×÷±×²»ÁÄÌì
+	--é˜²ä½œå¼Šä¸èŠå¤©
 	if GlobalUserItem.isAntiCheat() then
 		local runScene = cc.Director:getInstance():getRunningScene()
-		showToast(runScene, "·À×÷±×·¿¼ä½ûÖ¹ÁÄÌì", 3)
+		showToast(runScene, "é˜²ä½œå¼Šæˆ¿é—´ç¦æ­¢èŠå¤©", 3)
 		return
 	end
 	
@@ -207,7 +207,7 @@ function GameScene:startVoiceRecord()
 	end
 end
 
---Í£Ö¹Â¼Òô
+--åœæ­¢å½•éŸ³
 function GameScene:stopVoiceRecord()
 	local voiceLayer = self:getChildByName(VOICE_LAYER_NAME)
 	if nil ~= voiceLayer then
@@ -215,7 +215,7 @@ function GameScene:stopVoiceRecord()
 	end
 end
 
---È¡ÏûÂ¼Òô
+--å–æ¶ˆå½•éŸ³
 function GameScene:cancelVoiceRecord()
 	local voiceLayer = self:getChildByName(VOICE_LAYER_NAME)
 	if nil ~= voiceLayer then
