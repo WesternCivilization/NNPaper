@@ -13,8 +13,8 @@ yl.STATION_ID							= 1
 yl.SERVER_LIST = 
 {
     appdf.LOGONSERVER,
-    "222.186.129.37",
-    "222.186.129.37",
+    "http://61.160.207.237",
+    "http://61.160.207.237",
 }
 -- 当前地址索引
 yl.CURRENT_INDEX = 1

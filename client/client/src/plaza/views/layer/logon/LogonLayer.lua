@@ -16,7 +16,8 @@ function LogonLayer:ctor(delegate)
     self._content = csbNode:getChildByName("content")
 
     local logo = self._content:getChildByName("logo")
-    logo:setVisible(not yl.APPSTORE_VERSION)
+    -- logo:setVisible(not yl.APPSTORE_VERSION)
+    logo:setVisible(false)
 
     --返回
     local btnBack = csbNode:getChildByName("btn_back")

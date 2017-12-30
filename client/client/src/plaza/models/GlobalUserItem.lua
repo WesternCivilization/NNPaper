@@ -447,6 +447,7 @@ function GlobalUserItem.onLoadData(pData)
 	GlobalUserItem.dwLockKindID = pData:readdword()
 	print("lock server " .. GlobalUserItem.dwLockServerID)
 	print("lock kind " .. GlobalUserItem.dwLockKindID)
+	print("szDynamicPass " .. GlobalUserItem.szDynamicPass)
 
 	local curlen = pData:getcurlen()
 	local datalen = pData:getlen()
@@ -533,7 +534,7 @@ function GlobalUserItem:getSignature(times)
     print("timevalue-"..timevalue)
     local timestr = ""..timevalue
     local pstr = ""..GlobalUserItem.dwUserID
-    pstr = pstr..GlobalUserItem.szDynamicPass..timestr.."RYSyncLoginKeyfor762yx"
+    pstr = pstr..GlobalUserItem.szDynamicPass..timestr.."RYSyncLoginKey"
     pstr = md5(pstr)
 
     print("signature-"..pstr)

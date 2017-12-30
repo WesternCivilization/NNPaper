@@ -95,6 +95,7 @@ function LogonScene:onCreate()
 	   spine:addTo(self)
 	   spine:move(appdf.WIDTH / 2 , 0)
 	   spine:setAnimation(0, "animation", true)
+	   self._animal = spine
 
     --tip image
     local tipImg = cc.Sprite:create("base/res/img_tip.png")
@@ -336,8 +337,8 @@ function LogonScene:onClickAccount()
     ExternalFun.playClickEffect()
 
     --隐藏
-    self._logo:setVisible(false)
-    self._animal:setVisible(false)
+    -- self._logo:setVisible(false)
+    -- self._animal:setVisible(false)
 
     for i = 1, #self._logonButtons do
         self._logonButtons[i]:setVisible(false)
@@ -352,8 +353,8 @@ end
 --登录框关闭
 function LogonScene:onLogonLayerClose()
     
-    self._logo:setVisible(true)
-    self._animal:setVisible(true)
+    -- self._logo:setVisible(true)
+    -- self._animal:setVisible(true)
 
     for i = 1, #self._logonButtons do
         self._logonButtons[i]:setVisible(true)
@@ -478,8 +479,13 @@ function LogonScene:onLogonCallBack(result, message)
 					local data = jstable["data"]
 					msg = jstable["msg"]
 					if type(data) == "table" then
+						
+						print("啦啦啦 数据返回 0")
+
 						local valid = data["valid"]
+						print("啦啦啦 数据返回 1")
 						if valid then
+							print("啦啦啦 数据返回 2")
 							local count = data["FreeCount"] or 0
 							GlobalUserItem.nTableFreeCount = tonumber(count)
 							local sharesend = data["SharePresent"] or 0
