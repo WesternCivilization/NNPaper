@@ -13,6 +13,15 @@ local MultiPlatform = appdf.req(appdf.EXTERNAL_SRC .. "MultiPlatform")
 
 local FACEDOWNLOAD_LISTENER = "face_notify_down"
 local FACERESIZE_LISTENER = "face_resize_notify"
+
+local FILENAME = "Avatar%d.png"  --"Avatar%d.png"
+local HEAD_PLIST = "public/im_head_new.plist"  --""public/im_head.plist""
+local HEAD_FRAME_PLIST = "public/im_head_frame.plist"
+-- local HEAD_PNG = "public/im_head_new.png"  --""public/im_head.png""
+-- local HEAD_FRAME_PNG = "public/im_head_frame.png"
+local HEAD_MAX_COUNT = yl.FACE_COUNT
+local SYS_HEADSIZE = yl.SYS_HEADSIZE
+
 --全局通知函数
 cc.exports.g_FaceDownloadListener = function (ncode, msg, filename)
 	local event = cc.EventCustom:new(FACEDOWNLOAD_LISTENER)
@@ -32,7 +41,6 @@ cc.exports.g_FaceResizeListener = function(oldpath, newpath)
 	cc.Director:getInstance():getEventDispatcher():dispatchEvent(event)
 end
 
-local SYS_HEADSIZE = 120
 function HeadSprite.checkData(useritem)
 	useritem = useritem or {}
 	useritem.dwUserID = useritem.dwUserID or 0
@@ -61,7 +69,7 @@ function HeadSprite:ctor( )
 	end
 	self:registerScriptHandler(onEvent)
 
-	self.m_headSize = 96
+	self.m_headSize = yl.FACE_SIZE
 	self.m_useritem = nil
 	self.listener = nil
 	self.m_bEnable = false
@@ -135,6 +143,14 @@ function HeadSprite:createClipHead( useritem, headSize, clippingfile )
 	return nil
 end
 
+-- 容错 頭像id超出資源范围，则设置为第一张
+function HeadSprite:fixHeadID(faceid)
+	if faceid >= HEAD_MAX_COUNT then
+		faceid = 0
+	end
+	return faceid
+end
+
 --创建玩家系统头像
 function HeadSprite:createSysHead( faceId, headSize, clippingfile )
 
@@ -145,7 +161,8 @@ function HeadSprite:createSysHead( faceId, headSize, clippingfile )
     end
 
     --头像
-    local sp = cc.Sprite:createWithSpriteFrameName(string.format("Avatar%d.png", faceId))
+    faceId = self:fixHeadID(faceId)
+    local sp = cc.Sprite:createWithSpriteFrameName(string.format(FILENAME, faceId))
     local scaleCX = headSize.width / sp:getContentSize().width;
     local scaleCY = headSize.height / sp:getContentSize().height;
     sp:setScale(scaleCX, scaleCY)
@@ -213,7 +230,8 @@ function HeadSprite:updateHead( useritem )
 	if true == bAntiCheat then
 		faceid = 0
 	end
-	local str = string.format("Avatar%d.png", faceid)
+	faceid = self:fixHeadID(faceid)
+	local str = string.format(FILENAME, faceid)
 	local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(str)
 	if nil ~= frame then
 		self.m_spRender:setSpriteFrame(frame)
@@ -331,9 +349,12 @@ function HeadSprite:initHeadSprite( useritem )
 	local bAntiCheat = GlobalUserItem.isAntiCheatValid(useritem.dwUserID)
 	if bAntiCheat then
 		--直接使用系统头像
+		print("--直接使用系统头像")
 		faceid = 0
 	elseif isThirdParty and nil ~= useritem.szThirdPartyUrl and string.len(useritem.szThirdPartyUrl) > 0 then
 		local filename = string.gsub(useritem.szThirdPartyUrl, "[/.:+]", "") .. ".png"
+		
+		print("--判断是否有缓存或者本地文件 ????")
 
 		--判断是否有缓存或者本地文件
 		local framename = filename
@@ -341,6 +362,7 @@ function HeadSprite:initHeadSprite( useritem )
 		local filepath = path .. "/" .. filename
 		local bHave, spRender = self:haveCacheOrLocalFile(framename, filepath, false) 
 		if bHave then
+			print("有本地OR缓存头像了！！！")
 			return spRender
 		else
 			--判断是否有旧头像
@@ -361,6 +383,11 @@ function HeadSprite:initHeadSprite( useritem )
 
 			--网络请求
 			local url = useritem.szThirdPartyUrl
+			
+			print("--网络请求 url"..url)
+			print("--网络请求 path"..path)
+			print("--网络请求 filename"..filename)
+
 			self:downloadFace(url, path, filename, function(downloadfile)
 				local selffile = filename
 				if selffile == downloadfile then
@@ -436,6 +463,7 @@ function HeadSprite:initHeadSprite( useritem )
 			end)			
 		end
 	elseif nil ~= useritem.dwCustomID and 0 ~= useritem.dwCustomID then
+		print("--判断是否有缓存或者本地文件  自定义头像")
 		--判断是否有缓存或者本地文件
 		local framename = useritem.dwUserID .. "_custom_" .. useritem.dwCustomID .. ".ry"
 		local filepath = device.writablePath .. "face/" .. useritem.dwUserID .. "/" .. framename
@@ -497,7 +525,9 @@ function HeadSprite:initHeadSprite( useritem )
 		end
 	end
 	
-	local str = string.format("Avatar%d.png", faceid)
+	faceid = self:fixHeadID(faceid)
+	local str = string.format(FILENAME, faceid)
+	print("创建了头像 节点 "..str)
 	local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(str)
 	if nil ~= frame then
 		self.m_spRender = cc.Sprite:createWithSpriteFrame(frame)
@@ -624,12 +654,12 @@ end
 
 --缓存头像
 function HeadSprite.loadAllHeadFrame(  )
-	if false == cc.SpriteFrameCache:getInstance():isSpriteFramesWithFileLoaded("public/im_head.plist") then
+	if false == cc.SpriteFrameCache:getInstance():isSpriteFramesWithFileLoaded(HEAD_PLIST) then
 		--缓存头像
-		cc.SpriteFrameCache:getInstance():addSpriteFrames("public/im_head.plist")
+		cc.SpriteFrameCache:getInstance():addSpriteFrames(HEAD_PLIST)
 		--
 		--手动retain所有的头像帧缓存、防止被释放
-		local dict = cc.FileUtils:getInstance():getValueMapFromFile("public/im_head.plist")
+		local dict = cc.FileUtils:getInstance():getValueMapFromFile(HEAD_PLIST)
 		local framesDict = dict["frames"]
 		if nil ~= framesDict and type(framesDict) == "table" then
 			for k,v in pairs(framesDict) do
@@ -641,8 +671,8 @@ function HeadSprite.loadAllHeadFrame(  )
 		end
 
 		--缓存头像框
-		cc.SpriteFrameCache:getInstance():addSpriteFrames("public/im_head_frame.plist")
-		dict = cc.FileUtils:getInstance():getValueMapFromFile("public/im_head_frame.plist")
+		cc.SpriteFrameCache:getInstance():addSpriteFrames(HEAD_FRAME_PLIST)
+		dict = cc.FileUtils:getInstance():getValueMapFromFile(HEAD_FRAME_PLIST)
 		framesDict = dict["frames"]
 		if nil ~= framesDict and type(framesDict) == "table" then
 			for k,v in pairs(framesDict) do
@@ -656,7 +686,7 @@ function HeadSprite.loadAllHeadFrame(  )
 end
 
 function HeadSprite.unloadAllHead(  )
-	local dict = cc.FileUtils:getInstance():getValueMapFromFile("public/im_head_frame.plist")
+	local dict = cc.FileUtils:getInstance():getValueMapFromFile(HEAD_FRAME_PLIST)
 	local framesDict = dict["frames"]
 	if nil ~= framesDict and type(framesDict) == "table" then
 		for k,v in pairs(framesDict) do

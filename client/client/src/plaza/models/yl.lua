@@ -116,7 +116,9 @@ yl.INVALID_WORD                         = 65535
 --头像信息
 yl.FACE_CX 								= 48
 yl.FACE_CY								= 48
-yl.FACE_COUNT                           = 48        --头像数量
+yl.FACE_COUNT                           = 8        --头像数量
+yl.FACE_SIZE                            = 100      --头像默认大小
+yl.SYS_HEADSIZE                         = 100      --系统头像大小
 
 yl.GENDER_FEMALE						= 0				--女性性别
 yl.GENDER_MANKIND						= 1				--男性性别

@@ -246,7 +246,7 @@ function ClientScene:onCreate()
         --播放音效
         ExternalFun.playClickEffect()
 
-        showPopupLayer(NoticeLayer:create())
+        showPopupLayer(WelfareLayer:create())
     end)
 
     --分享按钮
@@ -257,40 +257,7 @@ function ClientScene:onCreate()
         --播放音效
         ExternalFun.playClickEffect()
 
-        -- 插入一段分享有礼
-        local function sharecall( isok )
-            if type(isok) == "string" and isok == "true" then
-                showToast(nil, "分享成功", 2)
-                --获取奖励
-                local ostime = os.time()
-                local url = yl.HTTP_URL .. "/WS/MobileInterface.ashx"
-                local param = "action=GetMobileShare&userid=" .. GlobalUserItem.dwUserID .. "&time=".. ostime .. "&signature=".. GlobalUserItem:getSignature(ostime) .. "&machineid=" .. GlobalUserItem.szMachine
-                appdf.onHttpJsionTable(url ,"GET", param, function(jstable,jsdata)
-
-                    GlobalUserItem.setTodayShare()
-                        
-                    if type(jstable) == "table" then
-                        local data = jstable["data"]
-                        local msg = jstable["msg"]
-                        if type(data) == "table" and type(msg) == "string" and "" ~= msg then
-                            GlobalUserItem.lUserScore = data["Score"] or GlobalUserItem.lUserScore
-                            --通知更新        
-                            local eventListener = cc.EventCustom:new(yl.RY_USERINFO_NOTIFY)
-                            eventListener.obj = yl.RY_MSG_USERWEALTH
-                            cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventListener)
-
-                            if type(msg) == "string" and "" ~= msg then
-                                showToast(nil, msg, 2)
-                            end                         
-                        end
-                    end
-                        
-                end)
-            end
-        end
-        local url = GlobalUserItem.szWXSpreaderURL or yl.HTTP_URL
-        MultiPlatform:getInstance():customShare(sharecall, nil, nil, url, "")
-
+        showPopupLayer(WelfareLayer:create())
     end)
 
     --客服按钮
@@ -351,14 +318,12 @@ function ClientScene:onCreate()
     local btnMore = self._areaBottom:getChildByName("btn_more")
     btnMore:addClickEventListener(function()
         
-        self:onClickAvatar()
     end)
 
     --比赛按钮
     local btnFight = self._areaBottom:getChildByName("btn_fight")
     btnFight:addClickEventListener(function()
         
-        self:onClickAvatar()
     end)
 
     -- --复制ID
@@ -382,25 +347,25 @@ function ClientScene:onCreate()
     --     showPopupLayer(MySpreaderLayer:create())
     -- end)
 
-    -- --增加游戏币按钮
-    -- local btnAddGold = self._areaBottom:getChildByName("area_gold_info"):getChildByName("btn_add_gold")
-    -- btnAddGold:addClickEventListener(function()
+    --增加游戏币按钮
+    local btnAddGold = self._areaBottom:getChildByName("btn_gold")
+    btnAddGold:addClickEventListener(function()
 
-    --     --播放音效
-    --     ExternalFun.playClickEffect()
+        --播放音效
+        ExternalFun.playClickEffect()
 
-    --     ShopLayer:create(2):addTo(self)
-    -- end)
+        ShopLayer:create(2):addTo(self)
+    end)
 
-    -- --增加游戏豆按钮
-    -- local btnAddBean = self._areaBottom:getChildByName("area_bean_info"):getChildByName("btn_add_bean")
-    -- btnAddBean:addClickEventListener(function()
+    --增加游戏豆按钮
+    local btnAddBean = self._areaBottom:getChildByName("btn_bean")
+    btnAddBean:addClickEventListener(function()
         
-    --     --播放音效
-    --     ExternalFun.playClickEffect()
+        --播放音效
+        ExternalFun.playClickEffect()
 
-    --     ShopLayer:create(1):addTo(self)
-    -- end)
+        ShopLayer:create(1):addTo(self)
+    end)
 
     --保存初始坐标(动画用)
     -- self._ptAreaRank = cc.p(self._areaRank:getPosition())
@@ -474,10 +439,12 @@ function ClientScene:onUpdateUserInfo()
     else
         local avatarFrame = self._areaBottom:getChildByName("sp_avatar_frame")
 
-        HeadSprite:createClipHead(GlobalUserItem, 64, "sp_avatar_mask_64.png")
-              :setPosition(avatarFrame:getPosition())
-              :setName("sp_avatar")
-              :addTo(self._areaBottom, avatarFrame:getLocalZOrder() + 1)
+        -- local head = HeadSprite:createClipHead(GlobalUserItem, 100, "sp_avatar_mask_64.png")
+        local head = HeadSprite:createNormal(GlobalUserItem, 128)
+              head:setPosition(avatarFrame:getPosition())
+              head:setName("sp_avatar")
+              head:addTo(self._areaBottom, avatarFrame:getLocalZOrder() + 1)
+
     end
 
     --玩家昵称
@@ -496,11 +463,11 @@ end
 function ClientScene:onUpdateScoreInfo()
 
     --游戏币
-    local txtGold = self._areaBottom:getChildByName("bg_gold"):getChildByName("txt_gold")
+    local txtGold = self._areaBottom:getChildByName("btn_gold"):getChildByName("txt_gold")
     txtGold:setString(ExternalFun.numberThousands(GlobalUserItem.lUserScore))
 
     --游戏豆
-    local txtBean = self._areaBottom:getChildByName("bg_bean"):getChildByName("txt_bean")
+    local txtBean = self._areaBottom:getChildByName("btn_bean"):getChildByName("txt_bean")
     txtBean:setString(ExternalFun.numberThousands(GlobalUserItem.dUserBeans))
 end
 
