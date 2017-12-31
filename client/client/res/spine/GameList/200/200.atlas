@@ -1,0 +1,83 @@
+
+doudizhu.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bianzi
+  rotate: true
+  xy: 366, 93
+  size: 48, 23
+  orig: 48, 23
+  offset: 0, 0
+  index: -1
+bizi
+  rotate: true
+  xy: 366, 60
+  size: 31, 20
+  orig: 31, 20
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 2
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+huzi
+  rotate: false
+  xy: 401, 160
+  size: 46, 22
+  orig: 46, 22
+  offset: 0, 0
+  index: -1
+huzi2
+  rotate: false
+  xy: 817, 224
+  size: 35, 22
+  orig: 35, 22
+  offset: 0, 0
+  index: -1
+shen
+  rotate: false
+  xy: 245, 143
+  size: 154, 103
+  orig: 154, 103
+  offset: 0, 0
+  index: -1
+shou
+  rotate: true
+  xy: 573, 183
+  size: 63, 110
+  orig: 63, 110
+  offset: 0, 0
+  index: -1
+shou2
+  rotate: false
+  xy: 685, 187
+  size: 72, 59
+  orig: 72, 59
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 245, 14
+  size: 119, 127
+  orig: 119, 127
+  offset: 0, 0
+  index: -1
+xx
+  rotate: false
+  xy: 759, 189
+  size: 56, 57
+  orig: 56, 57
+  offset: 0, 0
+  index: -1
+zi
+  rotate: false
+  xy: 401, 184
+  size: 170, 62
+  orig: 170, 62
+  offset: 0, 0
+  index: -1

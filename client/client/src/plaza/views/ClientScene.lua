@@ -97,11 +97,17 @@ function ClientScene:onCreate()
     self:cachePublicRes()
 
     -- 初始化游戏列表
+    -- self._gameLists = {
+    --     { 510, 516, 503 },
+    --     { 49, 26, 102, 27, 36, 6, 200, 601, 25 },
+    --     { 510, 507, 511 },
+    --     { 123, 516, 503, 508, 104, 122, 140, 118, 401 }
+    -- }
+
+    -- 初始化游戏列表
     self._gameLists = {
-        { 510, 516, 503 },
-        { 49, 26, 102, 27, 36, 6, 200, 601, 25 },
-        { 510, 507, 511 },
-        { 123, 516, 503, 508, 104, 122, 140, 118, 401 }
+        -- { 510, 516, 49, 27, 104, 200}
+        { 510, 516, 49, 27, 104}
     }
 
     --层标签列表
@@ -118,8 +124,8 @@ function ClientScene:onCreate()
     local timeline = ExternalFun.loadTimeLine( "plaza/PlazaLayer.csb" )
     -- local areaTop = csbNode:getChildByName("area_top"):setLocalZOrder(ZORDER.TOP_BAR)
     -- local areaRank = csbNode:getChildByName("area_rank"):setLocalZOrder(ZORDER.RANK_LIST)
-    -- local areaCategory = csbNode:getChildByName("area_category"):setLocalZOrder(ZORDER.CATEGORY_LIST)
-    -- local areaTrumpet = csbNode:getChildByName("area_trumpet"):setLocalZOrder(ZORDER.TRUMPET)
+    local areaCategory = csbNode:getChildByName("area_category"):setLocalZOrder(ZORDER.CATEGORY_LIST)
+    local areaTrumpet = csbNode:getChildByName("area_trumpet"):setLocalZOrder(ZORDER.TRUMPET)
 
     self._areaBottom = csbNode:getChildByName("sp_bottom"):setLocalZOrder(ZORDER.BOTTOM_BAR)
     self._bggold = self._areaBottom:getChildByName("bg_gold")
@@ -129,8 +135,8 @@ function ClientScene:onCreate()
     -- self._areaTop = areaTop
     -- self._areaBottom = areaBottom
     -- self._areaRank = areaRank
-    -- self._areaCategory = areaCategory
-    -- self._areaTrumpet = areaTrumpet
+    self._areaCategory = areaCategory
+    self._areaTrumpet = areaTrumpet
 
     --播放时间轴动画
     csbNode:runAction(timeline)
@@ -147,14 +153,31 @@ function ClientScene:onCreate()
     self._btnBack:setVisible(false)
                  :addClickEventListener(function() self:onClickBack() end)
 
-    -- --滚动喇叭
-    -- self._txtTrumpet = areaTrumpet:getChildByName("panel_trumpet"):getChildByName("txt_trumpet")
+    --滚动喇叭
+    -- self._txtTrumpet = areaTrumpet:getChildByName("txt_trumpet")
     -- self._txtTrumpet:setString("")
+    self._txtTrumpet = cc.Label:createWithTTF("", "fonts/round_body.ttf", 20)
+    self._txtTrumpet:setString("")
+    self._txtTrumpet:setAnchorPoint(0,1)
+
+    --滚动公告的裁剪
+    local clipSp = cc.Sprite:createWithSpriteFrameName("clip_notice.png")
+    local clip = cc.ClippingNode:create()
+    clip:setStencil(clipSp)
+    clip:addChild(self._txtTrumpet)
+    clip:setInverted(false)
+    local selfSize = areaTrumpet:getContentSize()
+    clip:setPosition(cc.p(selfSize.width/2, selfSize.height/2 - 10))
+    areaTrumpet:addChild(clip)
+
+    --隐藏喇叭
+    self._areaTrumpet:setVisible(false)
+
 
     --游戏列表
     self._gameListLayer = GameListLayer:create(self)
-                                                :setContentSize(908 + (yl.APPSTORE_VERSION and self._areaCategory:getContentSize().width or 0), 512)
-                                                :setPosition(325, 97)
+                                                :setContentSize(970 + (yl.APPSTORE_VERSION and self._areaCategory:getContentSize().width or 0), 515)
+                                                :setPosition(0, 125+4)
                         --                      :setBackGroundColorType(LAYOUT_COLOR_SOLID)
                         --                      :setBackGroundColor(cc.BLACK)
                         --                      :setBackGroundColorOpacity(50)
@@ -179,7 +202,7 @@ function ClientScene:onCreate()
     --     self._rankCategoryBtns[i] = btnRankCategory
     -- end
 
-    -- self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
+    self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
 
     -- --排行榜列表
     -- self._rankListLayer = RankingListLayer:create(cc.size(300, 410))
@@ -192,9 +215,9 @@ function ClientScene:onCreate()
     -- self._gameCategoryBtns = {}
     -- for i = 1, 4 do
     --     local btnGameCategory = areaCategory:getChildByName("btn_category_" .. i)
-    --     btnGameCategory:addEventListener(function(ref, type)
-    --         self:onClickGameCategory(i, true)
-    --     end)
+    --     -- btnGameCategory:addEventListener(function(ref, type)
+    --     --     self:onClickGameCategory(i, true)
+    --     -- end)
 
     --     self._gameCategoryBtns[i] = btnGameCategory
     -- end
@@ -369,7 +392,7 @@ function ClientScene:onCreate()
 
     --保存初始坐标(动画用)
     -- self._ptAreaRank = cc.p(self._areaRank:getPosition())
-    -- self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
+    self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
     self._ptGameListLayer = cc.p(self._gameListLayer:getPosition())
 
     --更新用户信息
@@ -379,7 +402,7 @@ function ClientScene:onCreate()
     self:onUpdateOnlineCount()
 
     --初始化游戏列表
-    self:onClickGameCategory(1)
+    self:onShowGameList(1)
 
     --查询滚动公告
     self:requestRollNotice()
@@ -507,30 +530,70 @@ end
 --点击游戏分类
 function ClientScene:onClickGameCategory(index, enableSound)
     
-    --播放按钮音效
-    if enableSound then
-        ExternalFun.playClickEffect()
-    end
+    -- --播放按钮音效
+    -- if enableSound then
+    --     ExternalFun.playClickEffect()
+    -- end
 
     -- for i = 1, #self._gameCategoryBtns do
     --     self._gameCategoryBtns[i]:setSelected(index == i)
     -- end
 
-    -- --防止重复执行
-    -- if index == self._gameCategoryIndex then
-    --     return
-    -- end
-    -- self._gameCategoryIndex = index
+   --  --防止重复执行
+   --  if index == self._gameCategoryIndex then
+   --      return
+   --  end
+   --  self._gameCategoryIndex = index
 
-    -- print("切换游戏分类", index)
+   --  print("切换游戏分类", index)
 
-    -- --更新游戏列表
-    -- self._gameListLayer:updateGameList(self._gameLists[index])
+   --  --更新游戏列表
+   --  self._gameListLayer:updateGameList(self._gameLists[index])
 
---    --切换动画
---    self._gameListLayer:stopAllActions()
---    self._gameListLayer:setPosition(cc.p(325 + 454, 97))
---    self._gameListLayer:runAction(cc.EaseSineInOut:create(cc.MoveTo:create(0.3, cc.p(325, 97))))
+   -- --切换动画
+   -- self._gameListLayer:stopAllActions()
+   -- self._gameListLayer:setPosition(cc.p(325 + 454, 97))
+   -- self._gameListLayer:runAction(cc.EaseSineInOut:create(cc.MoveTo:create(0.3, cc.p(325, 97))))
+  
+--    --3D翻转动画
+--    local scheduler = cc.Director:getInstance():getScheduler()
+
+--    if (self._schedualId) then
+--        scheduler:unscheduleScriptEntry(self._schedualId)
+--        self._schedualId = 0
+--    end
+
+--    self._rotation3D = -45
+--    self._rotationAlpha = 0
+--    self._schedualId = scheduler:scheduleScriptFunc(function()
+
+--        if self._rotation3D >= 0 then
+--            scheduler:unscheduleScriptEntry(self._schedualId)
+--            self._schedualId = 0
+--            self._rotation3D = 0
+--            self._rotationAlpha = 255
+--        end
+
+--        self._gameListLayer:setRotation3D(cc.vec3(self._rotation3D, 0, 0));
+--        self._gameListLayer:setOpacity(self._rotationAlpha)
+--        self._rotation3D = self._rotation3D + 2
+--        self._rotationAlpha = (self._rotation3D + 45) * 255 / 45
+--    end, 0, false)
+    
+end
+
+--顯示游戏分类
+function ClientScene:onShowGameList(index)
+
+    print("切换游戏分类", index)
+
+    --更新游戏列表
+    self._gameListLayer:updateGameList(self._gameLists[index])
+
+   -- --切换动画
+   -- self._gameListLayer:stopAllActions()
+   -- self._gameListLayer:setPosition(cc.p(325 + 454, 97))
+   -- self._gameListLayer:runAction(cc.EaseSineInOut:create(cc.MoveTo:create(0.3, cc.p(325, 97))))
   
 --    --3D翻转动画
 --    local scheduler = cc.Director:getInstance():getScheduler()
@@ -598,13 +661,13 @@ function ClientScene:onClickBack()
 
         -- --停止动画
         -- self._areaRank:stopAllActions()
-        -- self._areaCategory:stopAllActions()
-        -- self._gameListLayer:stopAllActions()
+        self._areaCategory:stopAllActions()
+        self._gameListLayer:stopAllActions()
         self._roomListLayer:stopAllActions()
 
         --执行动画
         -- AnimationHelper.jumpInTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x, self._ptAreaRank.y), 6, 0)
-        -- AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
+        AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
         AnimationHelper.jumpInTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x, self._ptGameListLayer.y), -6, 0)
 
         AnimationHelper.moveOutTo(self._roomListLayer, 0.2, cc.p(0, -100))
@@ -648,17 +711,17 @@ function ClientScene:onClickGame(wKindID)
     self._btnBack:setVisible(true)
 
     --隐藏喇叭
-    -- self._areaTrumpet:setVisible(false)
+    self._areaTrumpet:setVisible(false)
 
     --重置状态
     -- self._areaRank:setPosition(self._ptAreaRank):stopAllActions()
-    -- self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
+    self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
     self._gameListLayer:setPosition(self._ptGameListLayer):stopAllActions()
     self._roomListLayer:setPosition(0, -100):setOpacity(0):setVisible(true):stopAllActions()
 
     --执行动画
     -- AnimationHelper.moveOutTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x - 500, self._ptAreaRank.y))
-    -- AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
+    AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
     AnimationHelper.moveOutTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x + 1200, self._ptGameListLayer.y))
 
     AnimationHelper.jumpInTo(self._roomListLayer, 0.4, cc.p(0, 0), 0, 6)
@@ -899,25 +962,25 @@ function ClientScene:requestRollNotice()
             end
         end
 
-        -- --更新内容
-        -- self._txtTrumpet:setString(contents)
+        --更新内容
+        self._txtTrumpet:setString(contents)
 
-        -- local containerWidth = self._txtTrumpet:getParent():getContentSize().width
-        -- local contentSize = self._txtTrumpet:getContentSize()
+        local containerWidth = self._txtTrumpet:getParent():getContentSize().width
+        local contentSize = self._txtTrumpet:getContentSize()
 
-        -- --初始化位置
-        -- self._txtTrumpet:setPosition(containerWidth, 15)
+        --初始化位置
+        self._txtTrumpet:setPosition(containerWidth, 24)
 
-    --     --更新动画
-    --     self._txtTrumpet:stopAllActions()
-    --     self._txtTrumpet:runAction(
-    --         cc.RepeatForever:create(
-    --             cc.Sequence:create(
-    --                 cc.CallFunc:create(function() self._txtTrumpet:setPosition(containerWidth, 15) end),
-    --                 cc.MoveBy:create(16.0 + contentSize.width / 172, cc.p(-contentSize.width - containerWidth, 0))
-    --             )
-    --         )
-    --     )
+        --更新动画
+        self._txtTrumpet:stopAllActions()
+        self._txtTrumpet:runAction(
+            cc.RepeatForever:create(
+                cc.Sequence:create(
+                    cc.CallFunc:create(function() self._txtTrumpet:setPosition(containerWidth, 24) end),
+                    cc.MoveBy:create(8.0 + contentSize.width / 172, cc.p(-contentSize.width - containerWidth, 0))
+                )
+            )
+        )
     end)
 end
 

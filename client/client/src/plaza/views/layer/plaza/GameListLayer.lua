@@ -35,38 +35,84 @@ function GameListLayer:updateGameList(gamelist)
 
     for i = 1, #gamelist do
         
-        --游戏图标
-        local filestr
-        if i == 1 then filestr = "GameList/game_"..gamelist[i].."_big.png"
-        else filestr = "GameList/game_"..gamelist[i]..".png"
+        -- --游戏图标
+        -- local filestr
+        -- if i == 1 then filestr = "GameList/game_"..gamelist[i].."_big.png"
+        -- else filestr = "GameList/game_"..gamelist[i]..".png"
+        -- end
+
+        -- local p
+        -- if i == 1 then
+        --     p = cc.p(256, 256)
+        -- else
+        --     p = cc.p(256 + math.modf(i / 2) * 392, (i % 2 == 0) and 384 or 125)
+        -- end      
+
+--         --游戏图标按钮
+--         local btnGameIcon = ccui.Button:create(filestr, filestr, filestr)
+--         btnGameIcon:setPosition(p)
+--         btnGameIcon:setTag(gamelist[i]) --游戏KindID做为Tag
+--         btnGameIcon:addTo(self)
+-- --        btnGameIcon:addTouchEventListener(function(ref, type)
+
+-- --            --改变按钮点击颜色
+-- --            if type == ccui.TouchEventType.began then
+-- --                ref:setColor(cc.c3b(200, 200, 200))
+-- --            elseif type == ccui.TouchEventType.ended or ccui.TouchEventType.canceled then
+-- --                ref:setColor(cc.WHITE)
+-- --            end
+-- --        end)
+--         btnGameIcon:addClickEventListener(function()
+
+--             self:onClickGame(self._gameList[i])
+--         end)
+
+
+        -- F:\GitHub\762yx\Phone316Game\client\client\res\spine\GameList\27
+        -- 添加动画
+        if gamelist[i] ~= 200 then
+
+            local j = i - 1
+            local p = cc.p(125 + math.modf(j / 2) * 250, (i % 2 == 0) and 0 or 235)
+
+            local json = "spine/GameList/%d/%d.json"
+            local atlas = "spine/GameList/%d/%d.atlas"
+            local id = self._gameList[i]
+            json = string.format(json,id,id)
+            atlas = string.format(atlas,id,id)
+            
+            print(json,atlas)
+
+            local spine = sp.SkeletonAnimation:create(json, atlas, 1)
+            spine:addTo(self)
+            spine:setPosition(p)
+            spine:setAnimation(0, "animation", true)
+
+            --游戏图标按钮
+            local btnurl = "GameList/sp_none.png"
+            local btnGameIcon = ccui.Button:create(btnurl,btnurl,btnurl)
+            btnGameIcon:setPosition(0,120)
+            btnGameIcon:setScale(180)
+            btnGameIcon:setTag(gamelist[i]) --游戏KindID做为Tag
+            btnGameIcon:addTo(spine)
+            btnGameIcon:addTouchEventListener(function(ref, type)
+
+                --改变按钮点击颜色
+                if type == ccui.TouchEventType.began then
+                    ref:setColor(cc.c3b(200, 200, 200))
+                elseif type == ccui.TouchEventType.ended or ccui.TouchEventType.canceled then
+                    ref:setColor(cc.WHITE)
+                end
+            end)
+            btnGameIcon:addClickEventListener(function()
+
+                self:onClickGame(self._gameList[i])
+            end)
+
         end
 
-        local p
-        if i == 1 then
-            p = cc.p(256, 256)
-        else
-            p = cc.p(256 + math.modf(i / 2) * 392, (i % 2 == 0) and 384 or 125)
-        end
-
-        --游戏图标按钮
-        local btnGameIcon = ccui.Button:create(filestr, filestr, filestr)
-        btnGameIcon:setPosition(p)
-        btnGameIcon:setTag(gamelist[i]) --游戏KindID做为Tag
-        btnGameIcon:addTo(self)
---        btnGameIcon:addTouchEventListener(function(ref, type)
-
---            --改变按钮点击颜色
---            if type == ccui.TouchEventType.began then
---                ref:setColor(cc.c3b(200, 200, 200))
---            elseif type == ccui.TouchEventType.ended or ccui.TouchEventType.canceled then
---                ref:setColor(cc.WHITE)
---            end
---        end)
-        btnGameIcon:addClickEventListener(function()
-
-            self:onClickGame(self._gameList[i])
-        end)
     end
+
 
     --设置内容宽度
     local contentSize = self:getContentSize()

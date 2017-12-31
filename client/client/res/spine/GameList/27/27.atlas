@@ -1,0 +1,55 @@
+
+27.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+biyan
+  rotate: true
+  xy: 401, 138
+  size: 45, 29
+  orig: 45, 29
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 2
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 245, 88
+  size: 154, 95
+  orig: 154, 95
+  offset: 0, 0
+  index: -1
+shou
+  rotate: false
+  xy: 568, 164
+  size: 76, 82
+  orig: 76, 82
+  offset: 0, 0
+  index: -1
+shou2
+  rotate: false
+  xy: 245, 33
+  size: 112, 53
+  orig: 112, 53
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 441, 126
+  size: 125, 120
+  orig: 125, 120
+  offset: 0, 0
+  index: -1
+zi
+  rotate: false
+  xy: 245, 185
+  size: 194, 61
+  orig: 194, 61
+  offset: 0, 0
+  index: -1

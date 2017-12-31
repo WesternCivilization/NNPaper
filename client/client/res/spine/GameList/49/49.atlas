@@ -1,0 +1,55 @@
+
+49.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 2, 2
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+fama
+  rotate: false
+  xy: 378, 154
+  size: 148, 92
+  orig: 148, 92
+  offset: 0, 0
+  index: -1
+jinbi
+  rotate: false
+  xy: 378, 35
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: -1
+puke1
+  rotate: false
+  xy: 245, 89
+  size: 131, 157
+  orig: 131, 157
+  offset: 0, 0
+  index: -1
+puke2
+  rotate: true
+  xy: 245, 8
+  size: 79, 116
+  orig: 79, 116
+  offset: 0, 0
+  index: -1
+xx
+  rotate: false
+  xy: 698, 203
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
+zi
+  rotate: false
+  xy: 528, 186
+  size: 168, 60
+  orig: 168, 60
+  offset: 0, 0
+  index: -1
