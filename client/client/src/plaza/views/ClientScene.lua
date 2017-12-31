@@ -27,6 +27,7 @@ local MultiPlatform = appdf.req(appdf.EXTERNAL_SRC .. "MultiPlatform")
 
 local RankingListLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.RankingListLayer")
 local GameListLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.GameListLayer")
+local PageViewLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.PageViewLayer")
 local RoomListLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.RoomListLayer")
 local RoomLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.room.RoomLayer")
 local PersonalInfoLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.PersonalInfoLayer")
@@ -126,6 +127,9 @@ function ClientScene:onCreate()
     -- local areaRank = csbNode:getChildByName("area_rank"):setLocalZOrder(ZORDER.RANK_LIST)
     local areaCategory = csbNode:getChildByName("area_category"):setLocalZOrder(ZORDER.CATEGORY_LIST)
     local areaTrumpet = csbNode:getChildByName("area_trumpet"):setLocalZOrder(ZORDER.TRUMPET)
+    
+    self._btnLeft = csbNode:getChildByName("btn_left"):setLocalZOrder(ZORDER.TRUMPET)
+    self._btnRight = csbNode:getChildByName("btn_right"):setLocalZOrder(ZORDER.TRUMPET)
 
     self._areaBottom = csbNode:getChildByName("sp_bottom"):setLocalZOrder(ZORDER.BOTTOM_BAR)
     self._bggold = self._areaBottom:getChildByName("bg_gold")
@@ -173,6 +177,24 @@ function ClientScene:onCreate()
     --隐藏喇叭
     self._areaTrumpet:setVisible(false)
 
+    -- 箭頭按鈕
+    self._btnLeft:setVisible(false)
+    self._btnRight:setVisible(false)
+
+
+    --游戏轮播
+    local gamePage = self._layout:getChildByName("gamePage")
+    gamePage:setVisible(false)
+    local area_category = self._layout:getChildByName("area_category")
+    area_category:setVisible(true)
+
+    self._gamePageLayer = PageViewLayer:create(self)
+                                                :setContentSize(260, 410)
+                                                :setPosition(1004, 158)
+                                                :addTo(self._layout, ZORDER.GAME_LIST+1000)
+
+    self._gamePageLayer:updatePageInfo(4)
+
 
     --游戏列表
     self._gameListLayer = GameListLayer:create(self)
@@ -202,7 +224,7 @@ function ClientScene:onCreate()
     --     self._rankCategoryBtns[i] = btnRankCategory
     -- end
 
-    self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
+    -- self._areaCategory:setVisible(not yl.APPSTORE_VERSION)
 
     -- --排行榜列表
     -- self._rankListLayer = RankingListLayer:create(cc.size(300, 410))
@@ -392,7 +414,7 @@ function ClientScene:onCreate()
 
     --保存初始坐标(动画用)
     -- self._ptAreaRank = cc.p(self._areaRank:getPosition())
-    self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
+    -- self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
     self._ptGameListLayer = cc.p(self._gameListLayer:getPosition())
 
     --更新用户信息
@@ -661,13 +683,13 @@ function ClientScene:onClickBack()
 
         -- --停止动画
         -- self._areaRank:stopAllActions()
-        self._areaCategory:stopAllActions()
+        -- self._areaCategory:stopAllActions()
         self._gameListLayer:stopAllActions()
         self._roomListLayer:stopAllActions()
 
         --执行动画
         -- AnimationHelper.jumpInTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x, self._ptAreaRank.y), 6, 0)
-        AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
+        -- AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
         AnimationHelper.jumpInTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x, self._ptGameListLayer.y), -6, 0)
 
         AnimationHelper.moveOutTo(self._roomListLayer, 0.2, cc.p(0, -100))
@@ -715,13 +737,13 @@ function ClientScene:onClickGame(wKindID)
 
     --重置状态
     -- self._areaRank:setPosition(self._ptAreaRank):stopAllActions()
-    self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
+    -- self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
     self._gameListLayer:setPosition(self._ptGameListLayer):stopAllActions()
     self._roomListLayer:setPosition(0, -100):setOpacity(0):setVisible(true):stopAllActions()
 
     --执行动画
     -- AnimationHelper.moveOutTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x - 500, self._ptAreaRank.y))
-    AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
+    -- AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
     AnimationHelper.moveOutTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x + 1200, self._ptGameListLayer.y))
 
     AnimationHelper.jumpInTo(self._roomListLayer, 0.4, cc.p(0, 0), 0, 6)
