@@ -327,36 +327,53 @@ function GameListLayer:onClickGame(wKindID)
 
     local app = self._scene:getApp()
 
-    --判断游戏是否存在
+    -- --判断游戏是否存在
     local gameinfo = app:getGameInfo(wKindID)
     if not gameinfo then 
         showToast(nil, "亲，人家还没准备好呢！", 2)
         return
     end
 
-    local version = tonumber(app:getVersionMgr():getResVersion(gameinfo._KindID))
-    if version == nil then --下载游戏
-        print("下载游戏")
-        self:downloadGame(gameinfo)
+    -- 暂时屏蔽正式代码 2018.01.01
+    -- local version = tonumber(app:getVersionMgr():getResVersion(gameinfo._KindID))
+    -- if version == nil then --下载游戏
+    --     print("下载游戏")
+    --     self:downloadGame(gameinfo)
 
-    elseif gameinfo._ServerResVersion > version then --更新游戏
-        print("更新游戏")
-        self:updateGame(gameinfo)
+    -- elseif gameinfo._ServerResVersion > version then --更新游戏
+    --     print("更新游戏")
+    --     self:updateGame(gameinfo)
 
-    else
-        print("--判断是否开放房间")
-        --判断是否开放房间
-        if GlobalUserItem.getRoomCount(wKindID) == 0 then
-            showToast(nil, "抱歉，游戏房间暂未开放，请稍后再试！", 2)
-            return
-        end
+    -- else
+    --     print("--判断是否开放房间")
+    --     --判断是否开放房间
+    --     if GlobalUserItem.getRoomCount(wKindID) == 0 then
+    --         showToast(nil, "抱歉，游戏房间暂未开放，请稍后再试！", 2)
+    --         return
+    --     end
 
-        print("--通知进入游戏类型")
-        --通知进入游戏类型
-        if self._scene and self._scene.onClickGame then
-            self._scene:onClickGame(wKindID)
-        end
+    --     print("--通知进入游戏类型")
+    --     --通知进入游戏类型
+    --     if self._scene and self._scene.onClickGame then
+    --         self._scene:onClickGame(wKindID)
+    --     end
+    -- end
+
+    -- 测试代码 2018.01.01
+    print("--判断是否开放房间")
+    --判断是否开放房间
+    if GlobalUserItem.getRoomCount(wKindID) == 0 then
+        showToast(nil, "抱歉，游戏房间暂未开放，请稍后再试！", 2)
+        return
     end
+
+    print("--通知进入游戏类型")
+    --通知进入游戏类型
+    if self._scene and self._scene.onClickGame then
+        self._scene:onClickGame(wKindID)
+    end
+
+
 end
 
 --------------------------------------------------------------------------------------------------------------------
