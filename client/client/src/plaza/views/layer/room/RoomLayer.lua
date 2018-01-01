@@ -58,7 +58,7 @@ function RoomLayer:ctor(delegate)
 
     --锁桌按钮
     self._btnLock = ccui.Button:create("Room/bt_lock_0.png", "Room/bt_lock_1.png")
-    self._btnLock:setPosition(50, 620)
+    self._btnLock:setPosition(40, 580)
     self._btnLock:setScale(0.8)
     self._btnLock:setVisible(false)
     self._btnLock:addTo(self, 100)
@@ -144,7 +144,7 @@ end
 
 --登录房间
 function RoomLayer:logonRoom(wKindID, wServerID)
-
+    print("--登录房间")
     --获取游戏信息
     local gameInfo = MyApp:getInstance():getGameInfo(wKindID)
     if nil == gameInfo then

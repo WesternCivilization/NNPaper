@@ -190,8 +190,9 @@ function ClientScene:onCreate()
 
     self._gamePageLayer = PageViewLayer:create(self)
                                                 :setContentSize(260, 410)
-                                                :setPosition(1004, 158)
-                                                :addTo(self._layout, ZORDER.GAME_LIST+1000)
+                                                -- :setPosition(1004, 158)
+                                                :setPosition(10, 10)
+                                                :addTo(area_category, ZORDER.GAME_LIST+1000)
 
     self._gamePageLayer:updatePageInfo(4)
 
@@ -414,7 +415,7 @@ function ClientScene:onCreate()
 
     --保存初始坐标(动画用)
     -- self._ptAreaRank = cc.p(self._areaRank:getPosition())
-    -- self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
+    self._ptAreaCategory = cc.p(self._areaCategory:getPosition())
     self._ptGameListLayer = cc.p(self._gameListLayer:getPosition())
 
     --更新用户信息
@@ -683,13 +684,13 @@ function ClientScene:onClickBack()
 
         -- --停止动画
         -- self._areaRank:stopAllActions()
-        -- self._areaCategory:stopAllActions()
+        self._areaCategory:stopAllActions()
         self._gameListLayer:stopAllActions()
         self._roomListLayer:stopAllActions()
 
         --执行动画
         -- AnimationHelper.jumpInTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x, self._ptAreaRank.y), 6, 0)
-        -- AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
+        AnimationHelper.jumpInTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x, self._ptAreaCategory.y), -6, 0)
         AnimationHelper.jumpInTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x, self._ptGameListLayer.y), -6, 0)
 
         AnimationHelper.moveOutTo(self._roomListLayer, 0.2, cc.p(0, -100))
@@ -737,14 +738,14 @@ function ClientScene:onClickGame(wKindID)
 
     --重置状态
     -- self._areaRank:setPosition(self._ptAreaRank):stopAllActions()
-    -- self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
+    self._areaCategory:setPosition(self._ptAreaCategory):stopAllActions()
     self._gameListLayer:setPosition(self._ptGameListLayer):stopAllActions()
     self._roomListLayer:setPosition(0, -100):setOpacity(0):setVisible(true):stopAllActions()
 
     --执行动画
     -- AnimationHelper.moveOutTo(self._areaRank, 0.4, cc.p(self._ptAreaRank.x - 500, self._ptAreaRank.y))
-    -- AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1200, self._ptAreaCategory.y))
-    AnimationHelper.moveOutTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x + 1200, self._ptGameListLayer.y))
+    AnimationHelper.moveOutTo(self._areaCategory, 0.4, cc.p(self._ptAreaCategory.x + 1280, self._ptAreaCategory.y))
+    AnimationHelper.moveOutTo(self._gameListLayer, 0.4, cc.p(self._ptGameListLayer.x + 1280, self._ptGameListLayer.y))
 
     AnimationHelper.jumpInTo(self._roomListLayer, 0.4, cc.p(0, 0), 0, 6)
     AnimationHelper.alphaInTo(self._roomListLayer, 0.3, 255)

@@ -34,8 +34,8 @@ function RoomViewLayer:ctor(delegate)
 --    self._scrollView:setBackGroundColorOpacity(100)
     self._scrollView:setBounceEnabled(true)
     self._scrollView:setScrollBarEnabled(false)
-    self._scrollView:setContentSize(cc.size(yl.WIDTH, 580))
-    self._scrollView:setPosition(self:getContentSize().width / 2, self:getContentSize().height / 2 + 6)
+    self._scrollView:setContentSize(cc.size(yl.WIDTH, 500))
+    self._scrollView:setPosition(self:getContentSize().width / 2, self:getContentSize().height / 2 + 10)
     self._scrollView:addTo(self)
 end
 
