@@ -91,16 +91,18 @@ local APPLY_STATE = GameViewLayer._apply_state
 
 
 local MaxTimes = 10   ---最大赔率
+local MaxJet = 6      ---筹码种类
+
 
 --下注数值
-GameViewLayer.m_BTJettonScore = {100, 1000, 10000, 100000, 1000000, 5000000, 10000000}
+GameViewLayer.m_BTJettonScore = {100, 1000, 10000, 100000, 1000000, 10000000}
 
 --下注值对应游戏币个数
-GameViewLayer.m_JettonGoldBaseNum = {1, 1, 2, 2, 3, 3, 4}
+GameViewLayer.m_JettonGoldBaseNum = {1, 1, 2, 2, 3, 4}
 --获得基本游戏币个数
-GameViewLayer.m_WinGoldBaseNum = {2, 2, 4, 4, 6, 6, 6}
+GameViewLayer.m_WinGoldBaseNum = {2, 2, 4, 4, 6, 6}
 --获得最多游戏币个数
-GameViewLayer.m_WinGoldMaxNum = {6, 6, 8, 8, 12, 12, 12}
+GameViewLayer.m_WinGoldMaxNum = {6, 6, 8, 8, 12, 12}
 
 --发牌位置
 local cardpoint = {cc.p(690, 682), cc.p(196, 245), cc.p(196+246, 245), cc.p(196+246*2, 245), cc.p(196+246*3,245)}
@@ -300,13 +302,12 @@ function GameViewLayer:loadResource()
     -- 自定义背景图
     local bg = cc.Sprite:create("game_res/background.png")
         :setPosition(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
-        :setScale(yl.CSB_WIDTH/yl.WIDTH)
+        :setScale(yl.CSB_WIDTH / yl.WIDTH)
         :setLocalZOrder(0)
         :addTo(rootLayer)
 
     -- UI层级提高
     csbNode:setLocalZOrder(1)
-
 
 	local function btnEvent( sender, eventType )
         if eventType == ccui.TouchEventType.ended then
@@ -394,57 +395,55 @@ function GameViewLayer:loadResource()
 
     --自己背景框
     self.m_selfbg = csbNode:getChildByName("im_self_bg")
-    
-    -- local bg = cc.Sprite:createWithSpriteFrameName("bg_info.png")
-    --         :setPosition(0,0)
-    --         :setName("bankBG")
-    --         :addTo(self.m_bankerbg)
-    -- local bg = cc.Sprite:createWithSpriteFrameName("bg_info.png")
-    --         :setName("selfBG")
-    --         :setPosition(0,0)
-    --         :addTo(self.m_selfbg)
 
+    -- 修改背景框
+    -- local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame("bg_info.png")
+    -- self.m_bankerbg:setSpriteFrame(frame)
+    -- local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame("bg_info.png")
+    -- self.m_selfbg:setSpriteFrame(frame)
 
-    --下注筹码（100,1000,1万,10万,100万,500万,1千万）
-    for i=1,7 do
+    --下注筹码（100,1千,1万,10万,100万,1千万）
+    csbNode:getChildByName("bt_jetton_6"):setVisible(false)  --隐藏第七个筹码
+    for i=1,MaxJet do
         local str = string.format("bt_jetton_%d", i-1)
         btn = csbNode:getChildByName(str)
+        -- 更换UIButton按钮图片
+        local url = string.format("btn_score_%d.png",i-1)
+        btn:loadTextures(url, url, url, UI_TEX_TYPE_PLIST)
+        btn:setScale9Enabled(false)  --关闭九宫格缩放 否则显示异常
+        btn:setPositionX(btn:getPositionX()+50)
+
         btn:setTag(TAG_ENUM.BT_JETTONSCORE_0+i-1)
         btn:addTouchEventListener(btnEvent)
         self.m_JettonBtn[i] = btn
     end
 
-    -- --下注筹码（100,1千,1万,10万,100万,1千万）
-    -- for i=1,6 do
-    --     local str = string.format("bt_jetton_%d", i-1)
-    --     btn = csbNode:getChildByName(str)
-    --     btn:loadTextureNormal("btn_score_"..i..".png")
-    --     btn:loadTexturePressed("btn_score_"..i..".png")
-    --     btn:setTag(TAG_ENUM.BT_JETTONSCORE_0+i-1)
-    --     btn:addTouchEventListener(btnEvent)
-    --     self.m_JettonBtn[i] = btn
+    -- -- 测试代码
+    -- for k,v in pairs(csbNode:getChildren()) do
+    --     print("节点 ",k,v:getName())
+    --     for m,n in pairs(v:getChildren()) do
+    --         print(m,n:getName())
+    --     end
     -- end
 
     --筹码按钮背后光
     self.m_JettonLight = csbNode:getChildByName("im_jetton_effect")
-            :loadTexture("btn_selected.png")
+            :loadTexture("btn_selected.png",UI_TEX_TYPE_PLIST)
+    self.m_JettonLight:setPosition(self.m_JettonLight:getPositionX()+50, self.m_JettonLight:getPositionY()+2)
     self.m_JettonLight:runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
 
     -- -- 分数区按钮背光
-    -- self.m_ScoreLight = self.m_JettonLight:clone()
-    --         :setName("scoreLight")
-    --         -- :loadTexture("btn_card_select_0.png",1)
-    --         :loadTexture("bg_info.png")
-    --         :addTo(csbNode)
+    self.m_ScoreLight = cc.Sprite:createWithSpriteFrameName("btn_card_select_0.png")
+    -- self.m_ScoreLight:setPosition(-300,-300)
+    self.m_ScoreLight:addTo(csbNode)
+    self:resetScorePos()
     -- self.m_ScoreLight:runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
 
-    -- -- -- 分数区按钮背光
-    -- self.m_ScoreLight = cc.Sprite:createWithSpriteFrameName("btn_card_select_0.png")
-    --         :setPosition(self.m_JettonLight:getPosition())
-    --         :setVisible(false)
-    --         :addTo(csbNode)
-    --         :runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
-
+    -- 庄 image
+    local scoreBG = cc.Sprite:createWithSpriteFrameName("bg_card_0.png")
+            :setPosition(640, 520)
+            :setLocalZOrder(2)
+            :addTo(csbNode)
 
     --下注区域
     for i=1,4 do
@@ -453,8 +452,6 @@ function GameViewLayer:loadResource()
         btn:setPositionY(265)
         btn:loadTextureNormal("bg_card_"..i..".png")
         btn:loadTexturePressed("bg_card_"..i..".png")
-        -- btn:loadTextureNormal("btn_score_"..i..".png")  
-        -- btn:loadTexturePressed("btn_score_"..i..".png")
         btn:setTag(TAG_ENUM.BT_JETTONAREA_0+i-1)
         btn:addTouchEventListener(btnEvent)
         self.m_JettonArea[i] = btn
@@ -467,6 +464,7 @@ function GameViewLayer:loadResource()
         btn:setLocalZOrder(btn:getLocalZOrder()+1)
 
         btn = btn:getChildByName("txt_score")
+        btn:setPositionY(btn:getPositionY()+25)
         self.m_tAllJettonScore[i] = btn
         btn:setVisible(false)
     end
@@ -486,6 +484,7 @@ function GameViewLayer:loadResource()
         btn = csbNode:getChildByName(str)
         self.m_selfJettonBG[i] = btn
         btn:setVisible(false)
+        btn:setPositionY(btn:getPositionY()-2)
     end
 
     self:initBankerInfo()
@@ -534,6 +533,11 @@ function GameViewLayer:loadResource()
     self:addToRootLayer(self.m_goldLayer, ZORDER_LAYER.ZORDER_JETTON_GOLD_Layer)
 end
 
+function GameViewLayer:resetScorePos()
+    if self.m_ScoreLight then
+        self.m_ScoreLight:setPosition(-300,-300)
+    end
+end
 
 --初始化庄家信息
 function GameViewLayer:initBankerInfo()
@@ -654,6 +658,7 @@ function GameViewLayer:resetGameData()
     self.m_lUserJettonScore = {0,0,0,0,0}
     self.m_lUserAllJetton = 0
     self:updateAreaScore(false)
+    self:resetScorePos()
 
     --清空坐下用户下注分数
     for i=1,Game_CMD.MAX_OCCUPY_SEAT_COUNT do
@@ -771,7 +776,7 @@ function GameViewLayer:onButtonClickedEvent(tag, ref)
     --座位按钮
     elseif TAG_ENUM.BT_SEAT_0 <= tag and TAG_ENUM.BT_SEAT_5 >= tag then
         self:onSitDownClick(ref:getTag()-TAG_ENUM.BT_SEAT_0+1, ref)
-    --下注按钮
+    --筹码按钮
     elseif TAG_ENUM.BT_JETTONSCORE_0 <= tag and TAG_ENUM.BT_JETTONSCORE_6 >= tag then
         self:onJettonButtonClicked(ref:getTag()-TAG_ENUM.BT_JETTONSCORE_0+1, ref)
     --下注区域
@@ -817,6 +822,8 @@ end
 
 --下注区域
 function GameViewLayer:onJettonAreaClicked(tag, ref)
+    self:resetScorePos()
+
     --非下注状态
     if self.m_cbGameStatus ~= Game_CMD.GAME_SCENE_JETTON or self.m_nJettonSelect == 0 then
         return
@@ -826,6 +833,7 @@ function GameViewLayer:onJettonAreaClicked(tag, ref)
         return
     end
     
+
     if self.m_bEnableSysBanker == 0 and self.m_wBankerUser == yl.INVALID_CHAIR then
         showToast(self,"无人坐庄，不能下注",1) 
         return
@@ -856,6 +864,8 @@ function GameViewLayer:onJettonAreaClicked(tag, ref)
             return
         end
     end
+
+    self.m_ScoreLight:setPosition(ref:getPosition())
     
     self.m_lUserAllJetton = self.m_lUserAllJetton + jettonscore
     self:updateJettonList(self.m_lUserMaxScore - self.m_lUserAllJetton*MaxTimes)
@@ -933,6 +943,7 @@ function GameViewLayer:OnUpdataClockView(chair, time)
         end
     else
         if self.m_cbGameStatus ~= Game_CMD.GAME_SCENE_END then
+            self:resetScorePos()
             return
         end
         if time == self.m_cbTimeLeave then
@@ -1209,6 +1220,7 @@ end
 --提前开牌
 function GameViewLayer:onAdvanceOpenCard()
     showToast(self, "下注已超上限，提前开牌", 1)
+    self:resetScorePos()
 end
 
 --申请上庄
@@ -1407,6 +1419,7 @@ end
 function GameViewLayer:showGameStatus()
     if self.m_cbGameStatus == Game_CMD.GAME_SCENE_END then
         self.m_timeLayout:setVisible(false)
+        self:resetScorePos()
     else
         self.m_timeLayout:setVisible(true)
         local icon = self.m_timeLayout:getChildByName("im_icon")
@@ -1894,7 +1907,7 @@ function GameViewLayer:updateJettonList(score)
     if self.m_nJettonSelect == 0 then
         self.m_nJettonSelect = 1
     end
-    for i=1,7 do
+    for i=1,MaxJet do
         btjettonscore = btjettonscore + GameViewLayer.m_BTJettonScore[i]
         local judgescore = btjettonscore*MaxTimes
         if judgescore > score then
@@ -2101,7 +2114,7 @@ end
 --获取下注显示游戏币个数
 function GameViewLayer:getGoldNum(lscore)
     local goldnum = 1
-    for i=1,7 do
+    for i=1,MaxJet do
         if lscore >= GameViewLayer.m_BTJettonScore[i] then
             goldnum = i
         end
@@ -2146,7 +2159,7 @@ function GameViewLayer:getWinGoldNum(lscore)
         return 0
     end
     local goldnum = 0
-    for i=1,7 do
+    for i=1,MaxJet do
         if lscore >= GameViewLayer.m_BTJettonScore[i] then
             goldnum = i
         end
