@@ -2,6 +2,11 @@ yl = yl or {}
 
 yl.APPSTORE_VERSION                     = (device.platform == "ios") and false             --是否是苹果审核版本
 
+-- 旧版UI设计分辨率
+yl.CSB_WIDTH							= 1334
+yl.CSB_HEIGHT							= 750
+
+-- 新设计分辨率
 yl.WIDTH								= 1280--1136--1334
 yl.HEIGHT								= 720--640--750
 

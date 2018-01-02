@@ -308,10 +308,17 @@ function ExternalFun.req_var( module_name )
 end
 
 --加载界面根节点，设置缩放达到适配
-function ExternalFun.loadRootCSB( csbFile, parent )
+function ExternalFun.loadRootCSB( csbFile, parent, isOldCSB)
 	local rootlayer = ccui.Layout:create()
-		:setContentSize(1280,720) --这个是资源设计尺寸
-		:setScale(yl.WIDTH / 1280);
+		:setContentSize(yl.WIDTH, yl.HEIGHT) --这个是资源设计尺寸
+		-- :setScale(yl.WIDTH / yl.CSB_WIDTH);  --缩放
+
+	if isOldCSB then
+		rootlayer:setScale(yl.WIDTH / yl.CSB_WIDTH);  --旧版CSB 分辨率不一致 要缩放
+	-- else
+		-- rootlayer:setScale(yl.WIDTH / yl.WIDTH);  --缩放
+	end
+
 	if nil ~= parent then
 		parent:addChild(rootlayer);
 	end

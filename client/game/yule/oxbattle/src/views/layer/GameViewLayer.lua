@@ -63,13 +63,20 @@ local enumTable =
 }
 local TAG_ENUM = ExternalFun.declarEnumWithTable(TAG_START, enumTable)
 
-enumTable = {
-    "ZORDER_JETTON_GOLD_Layer", --下注时游戏币层级
-    "ZORDER_CARD_Layer", --牌层
-    "ZORDER_GOLD_Layer", --游戏币层
-    "ZORDER_Other_Layer", --用户列表层等
-}
-local ZORDER_LAYER = ExternalFun.declarEnumWithTable(2, enumTable)
+-- enumTable = {
+--     "ZORDER_JETTON_GOLD_Layer", --下注时游戏币层级
+--     "ZORDER_CARD_Layer", --牌层
+--     "ZORDER_GOLD_Layer", --游戏币层
+--     "ZORDER_Other_Layer", --用户列表层等
+-- }
+-- local ZORDER_LAYER = ExternalFun.declarEnumWithTable(2, enumTable)
+
+local ZORDER_LAYER = {}
+ZORDER_LAYER.ZORDER_JETTON_GOLD_Layer = 2
+ZORDER_LAYER.ZORDER_CARD_Layer = 4
+ZORDER_LAYER.ZORDER_GOLD_Layer = 6
+ZORDER_LAYER.ZORDER_Other_Layer = 8
+
 
 local enumApply =
 {
@@ -141,8 +148,11 @@ function GameViewLayer:paramInit()
     --下注筹码
     self.m_JettonBtn = {}
 
-    --下注按钮背后光
+    --筹码按钮背后光
     self.m_JettonLight = nil
+
+    --分数按钮背后光
+    self.m_ScoreLight = nil
 
     --选中筹码
     self.m_nJettonSelect = 0
@@ -281,10 +291,22 @@ end
 function GameViewLayer:loadResource()
     --加载卡牌纹理
     cc.Director:getInstance():getTextureCache():addImage("im_card.png")
+    cc.SpriteFrameCache:getInstance():addSpriteFrames("game_res_new.plist")
 
-    local rootLayer, csbNode = ExternalFun.loadRootCSB("GameScene.csb", self)
+    local rootLayer, csbNode = ExternalFun.loadRootCSB("GameScene.csb", self, true)
 	self.m_rootLayer = rootLayer
     self.m_scbNode = csbNode
+
+    -- 自定义背景图
+    local bg = cc.Sprite:create("game_res/background.png")
+        :setPosition(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
+        :setScale(yl.CSB_WIDTH/yl.WIDTH)
+        :setLocalZOrder(0)
+        :addTo(rootLayer)
+
+    -- UI层级提高
+    csbNode:setLocalZOrder(1)
+
 
 	local function btnEvent( sender, eventType )
         if eventType == ccui.TouchEventType.ended then
@@ -350,14 +372,40 @@ function GameViewLayer:loadResource()
     --倒计时
     self.m_timeLayout = csbNode:getChildByName("layout_time")
     self.m_timeLayout:setVisible(false)
+    
+    local icon = self.m_timeLayout:getChildByName("im_icon")
+    local content = self.m_timeLayout:getChildByName("im_txt")
+    local time = self.m_timeLayout:getChildByName("txt_time")
+    
+    self.m_timeLayout:setPosition(338,512)
+
+    icon:setAnchorPoint(0.5,0.5)
+    icon:setPosition(0,0)
+    
+    time:setPosition(0,-6)
+    time:setScale(0.4)
+    
+    content:setPosition(0,-55)
+    content:setAnchorPoint(0.5,1)
+
 
     --庄家背景框
     self.m_bankerbg = csbNode:getChildByName("im_banker_bg")
 
     --自己背景框
     self.m_selfbg = csbNode:getChildByName("im_self_bg")
+    
+    -- local bg = cc.Sprite:createWithSpriteFrameName("bg_info.png")
+    --         :setPosition(0,0)
+    --         :setName("bankBG")
+    --         :addTo(self.m_bankerbg)
+    -- local bg = cc.Sprite:createWithSpriteFrameName("bg_info.png")
+    --         :setName("selfBG")
+    --         :setPosition(0,0)
+    --         :addTo(self.m_selfbg)
 
-    --下注筹码
+
+    --下注筹码（100,1000,1万,10万,100万,500万,1千万）
     for i=1,7 do
         local str = string.format("bt_jetton_%d", i-1)
         btn = csbNode:getChildByName(str)
@@ -365,17 +413,58 @@ function GameViewLayer:loadResource()
         btn:addTouchEventListener(btnEvent)
         self.m_JettonBtn[i] = btn
     end
-    --下注按钮背后光
+
+    -- --下注筹码（100,1千,1万,10万,100万,1千万）
+    -- for i=1,6 do
+    --     local str = string.format("bt_jetton_%d", i-1)
+    --     btn = csbNode:getChildByName(str)
+    --     btn:loadTextureNormal("btn_score_"..i..".png")
+    --     btn:loadTexturePressed("btn_score_"..i..".png")
+    --     btn:setTag(TAG_ENUM.BT_JETTONSCORE_0+i-1)
+    --     btn:addTouchEventListener(btnEvent)
+    --     self.m_JettonBtn[i] = btn
+    -- end
+
+    --筹码按钮背后光
     self.m_JettonLight = csbNode:getChildByName("im_jetton_effect")
+            :loadTexture("btn_selected.png")
     self.m_JettonLight:runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
+
+    -- -- 分数区按钮背光
+    -- self.m_ScoreLight = self.m_JettonLight:clone()
+    --         :setName("scoreLight")
+    --         -- :loadTexture("btn_card_select_0.png",1)
+    --         :loadTexture("bg_info.png")
+    --         :addTo(csbNode)
+    -- self.m_ScoreLight:runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
+
+    -- -- -- 分数区按钮背光
+    -- self.m_ScoreLight = cc.Sprite:createWithSpriteFrameName("btn_card_select_0.png")
+    --         :setPosition(self.m_JettonLight:getPosition())
+    --         :setVisible(false)
+    --         :addTo(csbNode)
+    --         :runAction(cc.RepeatForever:create(cc.Blink:create(1.0,1)))
+
 
     --下注区域
     for i=1,4 do
         local str = string.format("bt_area_%d", i-1)
         btn = csbNode:getChildByName(str)
+        btn:setPositionY(265)
+        btn:loadTextureNormal("bg_card_"..i..".png")
+        btn:loadTexturePressed("bg_card_"..i..".png")
+        -- btn:loadTextureNormal("btn_score_"..i..".png")  
+        -- btn:loadTexturePressed("btn_score_"..i..".png")
         btn:setTag(TAG_ENUM.BT_JETTONAREA_0+i-1)
         btn:addTouchEventListener(btnEvent)
         self.m_JettonArea[i] = btn
+
+        -- 天地玄黄 image
+        local scoreBG = cc.Sprite:createWithSpriteFrameName("bg_card_"..i..".png")
+                :setPosition(btn:getPosition())
+                :setLocalZOrder(btn:getLocalZOrder())
+                :addTo(csbNode)
+        btn:setLocalZOrder(btn:getLocalZOrder()+1)
 
         btn = btn:getChildByName("txt_score")
         self.m_tAllJettonScore[i] = btn
@@ -413,6 +502,7 @@ function GameViewLayer:loadResource()
             self.m_winEffect[i]:setVisible(false)
             self.m_cardLayer:addChild(self.m_winEffect[i])
         end
+        -- 创建纸牌
         local temp = {}
         for j=1,5 do
             temp[j] = CardSprite:createCard(0)
@@ -579,6 +669,7 @@ function GameViewLayer:resetGameData()
     self.m_goldLayer:removeFromParent()
     self:addToRootLayer(self.m_goldLayer, ZORDER_LAYER.ZORDER_JETTON_GOLD_Layer)
     self.m_goldLayer:release()
+    self.m_cardLayer:setLocalZOrder(ZORDER_LAYER.ZORDER_CARD_Layer)
 
     if nil ~= self.m_gameResultLayer then
         self.m_gameResultLayer:setVisible(false)
@@ -597,6 +688,9 @@ function GameViewLayer:unloadResource()
     --特殊处理game_res blank.png 冲突
     cc.SpriteFrameCache:getInstance():removeSpriteFramesFromFile("game_res.plist")
     cc.Director:getInstance():getTextureCache():removeTextureForKey("game_res.png")
+
+    cc.SpriteFrameCache:getInstance():removeSpriteFramesFromFile("game_res_new.plist")
+    cc.Director:getInstance():getTextureCache():removeTextureForKey("game_res_new.png")
 
     cc.SpriteFrameCache:getInstance():removeSpriteFramesFromFile("game_bank.plist")
     cc.Director:getInstance():getTextureCache():removeTextureForKey("game_bank.png")
@@ -1092,6 +1186,7 @@ end
 
 --用户下注
 function GameViewLayer:onPlaceJetton(cmd_table)
+    print("--用户下注 更新分数显示")
     if self:isMeChair(cmd_table.wChairID) == true then
         local oldscore = self.m_lUserJettonScore[cmd_table.cbJettonArea+1]
         self.m_lUserJettonScore[cmd_table.cbJettonArea+1] = oldscore + cmd_table.lJettonScore 
@@ -1318,11 +1413,11 @@ function GameViewLayer:showGameStatus()
         local content = self.m_timeLayout:getChildByName("im_txt")
         local time = self.m_timeLayout:getChildByName("txt_time")
         time:setString(string.format("%02d", self.m_cbTimeLeave))
-        if self.m_cbGameStatus == Game_CMD.GAME_SCENE_FREE then
-            icon:loadTexture("im_time_free.png",UI_TEX_TYPE_PLIST)
-            content:loadTexture("txt_time_free.png", UI_TEX_TYPE_PLIST)
-        elseif self.m_cbGameStatus == Game_CMD.GAME_SCENE_JETTON then
-            icon:loadTexture("im_time_jetton.png",UI_TEX_TYPE_PLIST)
+        if self.m_cbGameStatus == Game_CMD.GAME_SCENE_FREE then  --等待中
+            icon:loadTexture("bg_clock.png",UI_TEX_TYPE_PLIST)
+            content:loadTexture("img_wait.png", UI_TEX_TYPE_PLIST)
+        elseif self.m_cbGameStatus == Game_CMD.GAME_SCENE_JETTON then  --请下注
+            icon:loadTexture("bg_clock.png",UI_TEX_TYPE_PLIST)
             content:loadTexture("txt_time_jetton.png", UI_TEX_TYPE_PLIST)    
         end
     end
@@ -1336,7 +1431,7 @@ function GameViewLayer:sendCard(banim)
             for j=1,5 do
                 local card = self.m_CardArray[i][j]
                 local index = (i-1)*5 + j - 1
-                card:setPosition(652, 514)
+                card:setPosition(652, 500)
                 card:runAction(cc.Sequence:create(cc.DelayTime:create(delaytime*index), cc.CallFunc:create(
                     function()
                         if j == 1 then
@@ -1370,6 +1465,7 @@ function GameViewLayer:showCard(banim)
     self.m_goldLayer:removeFromParent()
     self:addToRootLayer(self.m_goldLayer, ZORDER_LAYER.ZORDER_GOLD_Layer)
     self.m_goldLayer:release()
+    self.m_cardLayer:setLocalZOrder(ZORDER_LAYER.ZORDER_CARD_Layer)
 
     for i=1,5 do
         local niuvalue = GameLogic:GetCardType(self.m_cbTableCardArray[i], 5)
@@ -1830,15 +1926,20 @@ function GameViewLayer:updateAreaScore(bshow)
         return
     end
 
+    -- 天地玄黄 自己的分数
+    print("-- 天地玄黄 自己的分数")
+
     for i=1,4 do
         if self.m_lUserJettonScore[i+1] > 0 then
             self.m_selfJettonBG[i]:setVisible(true)
             local txt_score = self.m_selfJettonBG[i]:getChildByName("txt_score")
             txt_score:setString(ExternalFun.formatScoreText(self.m_lUserJettonScore[i+1]))
+            print("自己 ",i,ExternalFun.formatScoreText(self.m_lUserJettonScore[i+1]))
         end
         if self.m_lAllJettonScore[i+1] > 0 then
             self.m_tAllJettonScore[i]:setVisible(true)
             self.m_tAllJettonScore[i]:setString(ExternalFun.formatScoreText(self.m_lAllJettonScore[i+1]))
+            print("总分 ", i,ExternalFun.formatScoreText(self.m_lAllJettonScore[i+1]))
         end
     end
 end

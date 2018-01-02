@@ -237,6 +237,8 @@ function GameListLayer:updateGame(gameinfo)
 	if cc.PLATFORM_OS_WINDOWS == targetPlatform then
 		dst = device.writablePath .. "download/game/" .. gameinfo._Type .. "/"
         src = device.writablePath.."download/game/"..gameinfo._Module.."/res/filemd5List.json"
+        print("PC 更新游戏 "..dst)
+        print("PC 更新游戏 "..src)
     else
         dst = device.writablePath .. "game/" .. gameinfo._Type .. "/"
         src = device.writablePath.."game/"..gameinfo._Module.."/res/filemd5List.json"
