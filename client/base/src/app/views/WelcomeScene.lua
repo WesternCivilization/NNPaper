@@ -127,6 +127,13 @@ function WelcomeScene:onCreate()
     --隐藏进度条
     self:showProgressBar(false)
 
+
+    if cc.PLATFORM_OS_WINDOWS == targetPlatform then
+        --获取服务器配置
+        self:requestServerConfig()
+        return
+    end
+
     --无版本信息, 解压自带ZIP
     local nResversion = tonumber(self:getApp()._version:getResVersion())
 	if nil == nResversion then
@@ -468,6 +475,10 @@ function WelcomeScene:requestServerConfig()
             end	 		
 	 	end
 
+        if cc.PLATFORM_OS_WINDOWS == targetPlatform then
+            self:enterClient()
+            return
+        end
         
         if succeed then --成功
 
