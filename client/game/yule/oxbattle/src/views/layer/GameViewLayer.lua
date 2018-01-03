@@ -104,8 +104,8 @@ GameViewLayer.m_WinGoldBaseNum = {2, 2, 4, 4, 6, 6}
 --获得最多游戏币个数
 GameViewLayer.m_WinGoldMaxNum = {6, 6, 8, 8, 12, 12}
 
---发牌位置
-local cardpoint = {cc.p(690, 682), cc.p(196, 245), cc.p(196+246, 245), cc.p(196+246*2, 245), cc.p(196+246*3,245)}
+--发牌位置 显示纸牌
+local cardpoint = {cc.p(535, 500), cc.p(196, 245), cc.p(196+246, 245), cc.p(196+246*2, 245), cc.p(196+246*3,245)}
 --自己头像位置
 local selfheadpoint = cc.p(63, 57)
 --庄家头像位置
