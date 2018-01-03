@@ -7,7 +7,6 @@
 //
 
 #include "QrNode.h"
-#include "QR_Encode.h"
 #include "ui/CocosGUI.h"
 #if CC_ENABLE_SCRIPT_BINDING
 #include "CCLuaEngine.h"
@@ -30,10 +29,7 @@ QrNode* QrNode::createQrNode(const std::string &content,
                              const int &nMaskingNo /*= -1*/)
 {
     QrNode *qr = new QrNode();
-
-	//CQR_Encode qr_encode;
     if (nullptr != qr && qr->initQrNode(content, nNodeSize, nQrSize, nLevel, nVersion, bAutoExtent, nMaskingNo))
-	//if (nullptr != qr && qr_encode.EncodeData(nLevel, nVersion, bAutoExtent, nMaskingNo, nullptr,sizeof(content)))
     {
         qr->autorelease();
         return qr;
@@ -41,7 +37,6 @@ QrNode* QrNode::createQrNode(const std::string &content,
     CC_SAFE_DELETE(qr);
     return nullptr;
 }
-
 
 void onCaptureScreenArea(const std::function<void(bool, const std::string&)>& afterCaptured, const std::string& filename, const Rect &area)
 {
@@ -192,6 +187,40 @@ bool QrNode::saveQrToFile(const std::string &filename, const int &nLuaCallFunC)
 #endif
                                   render->release();
                               });
+}
+
+bool QrNode::initQrNode(const std::string &content,
+                        const int &nNodeSize,
+                        const int &nQrSize /*= 5*/,
+                        const int &nLevel /*= 0*/,
+                        const int &nVersion /*= 0*/,
+                        const bool &bAutoExtent /*= true*/,
+                        const int &nMaskingNo /*= -1*/)
+{
+    bool bRes = false;
+    do
+    {
+        m_strContent = content;
+        m_nQrSize = nQrSize;
+        m_nNodeSize = nNodeSize;
+        if (m_QREncode.EncodeData(nLevel, nVersion, bAutoExtent, nMaskingNo, (char*)content.c_str()))
+        {
+            Node *qrNode = this->drawQr();
+            if (nullptr != qrNode)
+            {          
+                m_nQrOriginSize = (m_QREncode.m_nSymbleSize + QR_MARGIN * 2) * m_nQrSize;
+                m_fScaleRate = (float)nNodeSize / m_nQrOriginSize;
+                
+                this->setScale(m_fScaleRate);
+                this->setContentSize(Size(m_fScaleRate * m_nQrOriginSize, m_fScaleRate * m_nQrOriginSize));
+                this->addChild(qrNode);
+                qrNode->setName(QR_NODE_NAME);
+                qrNode->setPosition(-m_nQrOriginSize * 0.5, m_nQrOriginSize * 0.5);
+                bRes = true;
+            }
+        }
+    } while (false);
+    return bRes;
 }
 
 Node* QrNode::drawQr()
