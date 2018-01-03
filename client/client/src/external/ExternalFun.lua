@@ -330,8 +330,13 @@ function ExternalFun.loadRootCSB( csbFile, parent, isOldCSB)
 end
 
 --加载csb资源
-function ExternalFun.loadCSB( csbFile, parent )
-	local csbnode = cc.CSLoader:createNode(csbFile);
+function ExternalFun.loadCSB( csbFile, parent, isOldCSB )
+	local csbnode = cc.CSLoader:createNode(csbFile)
+
+	if isOldCSB then
+		csbnode:setScale(yl.WIDTH / yl.CSB_WIDTH);  --旧版CSB 分辨率不一致 要缩放
+	end
+
 	if nil ~= parent then
 		parent:addChild(csbnode);
 	end

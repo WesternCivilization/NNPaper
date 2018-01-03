@@ -49,7 +49,7 @@ function ShopLayer:ctor(listType)
     --节点事件
     ExternalFun.registerNodeEvent(self)
 
-    local csbNode = ExternalFun.loadCSB("Shop/ShopLayer.csb"):addTo(self)
+    local csbNode = ExternalFun.loadCSB("Shop/ShopLayer.csb",self,true)--:addTo(self)
     self._top = csbNode:getChildByName("top")
     self._content = csbNode:getChildByName("content")
     self._txtBank = self._top:getChildByName("bank_info"):getChildByName("txt_bank")
