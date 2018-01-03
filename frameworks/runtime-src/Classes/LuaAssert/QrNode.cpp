@@ -31,9 +31,9 @@ QrNode* QrNode::createQrNode(const std::string &content,
 {
     QrNode *qr = new QrNode();
 
-	CQR_Encode qr_encode;
-    //if (nullptr != qr && qr->initQrNode(content, nNodeSize, nQrSize, nLevel, nVersion, bAutoExtent, nMaskingNo))
-	if (nullptr != qr && qr_encode.EncodeData(nLevel, nVersion, bAutoExtent, nMaskingNo, nullptr,sizeof(content)))
+	//CQR_Encode qr_encode;
+    if (nullptr != qr && qr->initQrNode(content, nNodeSize, nQrSize, nLevel, nVersion, bAutoExtent, nMaskingNo))
+	//if (nullptr != qr && qr_encode.EncodeData(nLevel, nVersion, bAutoExtent, nMaskingNo, nullptr,sizeof(content)))
     {
         qr->autorelease();
         return qr;
@@ -42,7 +42,6 @@ QrNode* QrNode::createQrNode(const std::string &content,
     return nullptr;
 }
 
-//bool EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, char * lpsSource, int ncSource = 0);
 
 void onCaptureScreenArea(const std::function<void(bool, const std::string&)>& afterCaptured, const std::string& filename, const Rect &area)
 {
