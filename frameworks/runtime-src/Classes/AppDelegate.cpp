@@ -8,7 +8,7 @@
 #include "LuaAssert/CurlAsset.h"
 #include "LuaAssert/LogAsset.h"
 #include "LuaAssert/CircleBy.h"
-//#include "LuaAssert/QrNode.h"
+#include "LuaAssert/QrNode.h"
 #include "LuaAssert/AESEncrypt.h"
 #include "LuaAssert/AudioRecorder/AudioRecorder.h"
 
@@ -791,7 +791,7 @@ static int register_all_packages()
 	register_all_curlasset();
 	register_all_logasset();
 	register_all_Circleasset();
-    //register_all_QrNode();
+    register_all_QrNode();
     register_all_AESEncrypt();
     register_all_recorder();
 
