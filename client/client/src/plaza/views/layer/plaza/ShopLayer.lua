@@ -72,6 +72,9 @@ function ShopLayer:ctor(listType)
         self:removeFromParent()
     end)
 
+    cc.SpriteFrameCache:getInstance():addSpriteFrames("public/public.plist")
+    btnBack:loadTextures("btn_back_0.png", "btn_back_1.png","btn_back_0.png", UI_TEX_TYPE_PLIST)
+
     --分类按钮
     for i = 1, 3 do
 
