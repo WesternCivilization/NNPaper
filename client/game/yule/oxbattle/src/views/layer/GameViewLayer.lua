@@ -476,6 +476,7 @@ function GameViewLayer:loadResource()
         btn:setTag(TAG_ENUM.BT_SEAT_0+i-1)
         btn:addTouchEventListener(btnEvent)
         self.m_TableSeat[i] = btn
+        btn:setVisible(false)  --隐藏座位
     end
 
     --自己下注分数
