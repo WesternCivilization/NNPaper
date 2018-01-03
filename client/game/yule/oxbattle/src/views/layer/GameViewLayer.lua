@@ -1472,14 +1472,14 @@ function GameViewLayer:sendCard(banim)
     
 end
 
---显示牌跟牌值
+--显示牌跟牌值 开牌
 function GameViewLayer:showCard(banim)
     --切换游戏币层层级显示
-    self.m_goldLayer:retain()
-    self.m_goldLayer:removeFromParent()
-    self:addToRootLayer(self.m_goldLayer, ZORDER_LAYER.ZORDER_GOLD_Layer)
-    self.m_goldLayer:release()
-    self.m_cardLayer:setLocalZOrder(ZORDER_LAYER.ZORDER_CARD_Layer)
+    -- self.m_goldLayer:retain()
+    -- self.m_goldLayer:removeFromParent()
+    -- self:addToRootLayer(self.m_goldLayer, ZORDER_LAYER.ZORDER_GOLD_Layer)
+    -- self.m_goldLayer:release()
+    -- self.m_cardLayer:setLocalZOrder(ZORDER_LAYER.ZORDER_CARD_Layer)
 
     for i=1,5 do
         local niuvalue = GameLogic:GetCardType(self.m_cbTableCardArray[i], 5)
