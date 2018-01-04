@@ -22,6 +22,7 @@ local TAG_ZORDER = Define.TAG_ZORDER
 
 local ZORDER_LAYER = {}
 ZORDER_LAYER.ZORDER_Other_Layer = 8
+ZORDER_LAYER.ZORDER_TIMER = 20
 
 local GameViewLayer = class("GameViewLayer",function(scene)
         local gameViewLayer = display.newLayer()
@@ -424,7 +425,9 @@ function GameViewLayer:loadResource()
     btn = onGame:getChildByName("pass_btn")
     btn:setTag(TAG_ENUM.BT_PASS)
     btn:addTouchEventListener(btnEvent)
+    btn:setPosition(self.m_tabCallScoreBtn[1]:getPosition())
     self.m_btnPass = btn
+
 
     --提示按钮
     btn = onGame:getChildByName("suggest_btn")
@@ -479,9 +482,10 @@ function GameViewLayer:loadResource()
     -- 倒计时
     self.m_spTimer = infoLayout:getChildByName("bg_clock")
     self.m_atlasTimer = self.m_spTimer:getChildByName("atlas_time")
-    self.m_tabTimerPos[cmd.MY_VIEWID] = cc.p(yl.WIDTH * 0.5, 580)
-    self.m_tabTimerPos[cmd.LEFT_VIEWID] = cc.p(yl.WIDTH * 0.15, 580)
-    self.m_tabTimerPos[cmd.RIGHT_VIEWID] = cc.p(yl.WIDTH * 0.85, 580)
+    self.m_tabTimerPos[cmd.MY_VIEWID] = cc.p(yl.WIDTH * 0.20, 290)
+    self.m_tabTimerPos[cmd.LEFT_VIEWID] = cc.p(yl.WIDTH * 0.24, 590)
+    self.m_tabTimerPos[cmd.RIGHT_VIEWID] = cc.p(yl.WIDTH * 0.82, 590)
+    self.m_spTimer:setLocalZOrder(ZORDER_LAYER.ZORDER_TIMER)
     -- 用户信息
     ------
 
@@ -919,6 +923,10 @@ function GameViewLayer:onPassOutCard()
     -- 显示不出
     local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame("game_nooutcard.png")
     if nil ~= frame then
+        if self.m_tabStateSp[cmd.MY_VIEWID].chgX == nil then
+            self.m_tabStateSp[cmd.MY_VIEWID].chgX = true
+            self.m_tabStateSp[cmd.MY_VIEWID]:setPositionX(self.m_tabStateSp[cmd.MY_VIEWID]:getPositionX()+15)
+        end
         self.m_tabStateSp[cmd.MY_VIEWID]:setSpriteFrame(frame)
     end
 
