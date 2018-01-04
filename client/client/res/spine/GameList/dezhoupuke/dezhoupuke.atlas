@@ -1,0 +1,48 @@
+
+dezhoupuke.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 2, 2
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+jin
+  rotate: false
+  xy: 412, 148
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+jin2
+  rotate: false
+  xy: 412, 196
+  size: 58, 50
+  orig: 58, 50
+  offset: 0, 0
+  index: -1
+pu
+  rotate: false
+  xy: 245, 89
+  size: 165, 157
+  orig: 165, 157
+  offset: 0, 0
+  index: -1
+xingx
+  rotate: false
+  xy: 412, 103
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
+zi
+  rotate: false
+  xy: 245, 26
+  size: 201, 61
+  orig: 201, 61
+  offset: 0, 0
+  index: -1

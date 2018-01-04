@@ -70,7 +70,7 @@ function GameListLayer:updateGameList(gamelist)
 
         -- F:\GitHub\762yx\Phone316Game\client\client\res\spine\GameList\27
         -- 添加动画
-        if gamelist[i] ~= 200 then
+        -- if gamelist[i] ~= 200 then
 
             local j = i - 1
             local p = cc.p(125 + math.modf(j / 2) * 250, (i % 2 == 0) and 0 or 235)
@@ -109,7 +109,7 @@ function GameListLayer:updateGameList(gamelist)
                 self:onClickGame(self._gameList[i])
             end)
 
-        end
+        -- end
 
     end
 

@@ -1,0 +1,83 @@
+
+dashengnaohai.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bangzi
+  rotate: false
+  xy: 245, 130
+  size: 171, 116
+  orig: 171, 116
+  offset: 0, 0
+  index: -1
+biyan
+  rotate: false
+  xy: 418, 149
+  size: 59, 34
+  orig: 59, 34
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 2
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+hong
+  rotate: false
+  xy: 733, 154
+  size: 51, 33
+  orig: 51, 33
+  offset: 0, 0
+  index: -1
+shen
+  rotate: false
+  xy: 245, 26
+  size: 122, 102
+  orig: 122, 102
+  offset: 0, 0
+  index: -1
+shou
+  rotate: false
+  xy: 733, 189
+  size: 81, 57
+  orig: 81, 57
+  offset: 0, 0
+  index: -1
+tou
+  rotate: true
+  xy: 618, 144
+  size: 102, 113
+  orig: 102, 113
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 816, 190
+  size: 73, 56
+  orig: 73, 56
+  offset: 0, 0
+  index: -1
+yim
+  rotate: false
+  xy: 891, 208
+  size: 27, 38
+  orig: 27, 38
+  offset: 0, 0
+  index: -1
+yimao2
+  rotate: true
+  xy: 369, 71
+  size: 57, 38
+  orig: 57, 38
+  offset: 0, 0
+  index: -1
+zi
+  rotate: false
+  xy: 418, 185
+  size: 198, 61
+  orig: 198, 61
+  offset: 0, 0
+  index: -1

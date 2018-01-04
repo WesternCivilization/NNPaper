@@ -1,0 +1,69 @@
+
+xuezhanmajiang.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+biy
+  rotate: false
+  xy: 245, 16
+  size: 76, 34
+  orig: 76, 34
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 10
+  size: 241, 244
+  orig: 241, 244
+  offset: 0, 0
+  index: -1
+fa
+  rotate: true
+  xy: 323, 2
+  size: 41, 67
+  orig: 41, 67
+  offset: 0, 0
+  index: -1
+fa2
+  rotate: true
+  xy: 392, 6
+  size: 37, 65
+  orig: 37, 65
+  offset: 0, 0
+  index: -1
+maj
+  rotate: false
+  xy: 439, 178
+  size: 64, 76
+  orig: 64, 76
+  offset: 0, 0
+  index: -1
+saizi
+  rotate: false
+  xy: 439, 118
+  size: 51, 58
+  orig: 51, 58
+  offset: 0, 0
+  index: -1
+saizi2
+  rotate: false
+  xy: 439, 60
+  size: 47, 56
+  orig: 47, 56
+  offset: 0, 0
+  index: -1
+st
+  rotate: false
+  xy: 245, 52
+  size: 129, 202
+  orig: 129, 202
+  offset: 0, 0
+  index: -1
+zi
+  rotate: true
+  xy: 376, 45
+  size: 209, 61
+  orig: 209, 61
+  offset: 0, 0
+  index: -1
