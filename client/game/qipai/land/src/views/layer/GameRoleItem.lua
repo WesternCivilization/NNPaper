@@ -21,6 +21,10 @@ popAnchor[cmd.LEFT_VIEWID] = cc.p(0, 0)
 popAnchor[cmd.RIGHT_VIEWID] = cc.p(1, 0)
 popAnchor[cmd.MY_VIEWID] = cc.p(0, 0)
 
+local GameRoleItem = {}
+GameRoleItem.NICKNAME = 1
+GameRoleItem.SCORE = 2
+
 local GameRoleItem = class("GameRoleItem", cc.Node)
 
 function GameRoleItem:ctor(userItem, viewId)
@@ -32,12 +36,30 @@ function GameRoleItem:ctor(userItem, viewId)
     -- 加载csb资源
     local csbNode = ExternalFun.loadCSB("game/GameRoleItem.csb",self)
 
-    -- 用户头像
-    local head = PopupInfoHead:createNormal(userItem, 90)
+    -- 头像背景
+    self.m_headBg = cc.Sprite:createWithSpriteFrameName("land_headframe.png"):addTo(csbNode)
+    -- 头像
+    local head = PopupInfoHead:createNormal(userItem, 85)
+    head:setPosition(0, 4)
+    head:enableHeadFrame(false)
     head:enableInfoPop(true, popPosition[viewId], popAnchor[viewId])
-    head:enableHeadFrame(true, {_framefile = "land_headframe.png", _zorder = -1, _scaleRate = 0.75, _posPer = cc.p(0.5, 0.63)})
+    --头像遮盖层
+    local cover = cc.Sprite:createWithSpriteFrameName("frame_head.png"):addTo(head)
     self.m_popHead = head
     csbNode:addChild(head)
+    -- --昵称
+    -- cc.Label:createWithTTF("玩家", "fonts/round_body.ttf", 18)
+    --     :move(0, 70)
+    --     :setTag(GameRoleItem.NICKNAME)
+    --     :addTo(self.m_headBg)
+    -- --金币
+    -- cc.Label:createWithTTF("000000", "fonts/round_body.ttf", 18)
+    --     :move(12, -63)
+    --     :setAnchorPoint(cc.p(0.5, 0.5))
+    --     :setColor(cc.c3b(250, 200, 70))
+    --     :setTag(GameRoleItem.SCORE)
+    --     :addTo(self.m_headBg)
+
 
     -- 游戏状态
     self.m_spGameFrame = csbNode:getChildByName("head_frame")
@@ -95,12 +117,39 @@ function GameRoleItem:onExit()
 end
 
 function GameRoleItem:reSet()
+    self.m_headBg:setVisible(true)
     self.m_popHead:setVisible(true)
     self.m_spInfoBg:setVisible(false)
     self.m_spGameFrame:setVisible(false)
 end
 
+-- 更新用户头像信息
+function GameRoleItem:updateHeadInfos()
+    if self.m_headBg then
+        -- 昵称
+        if nil == self.m_name then            
+            self.m_name = ClipText:createClipText(cc.size(90, 20), self.m_userItem.szNickName)
+            self.m_name:setAnchorPoint(cc.p(0.5, 0.5))
+            self.m_name:setPosition(127/2, 177/2+70)
+            self.m_headBg:addChild(self.m_name)
+        else
+            self.m_name:setString(self.m_userItem.szNickName)
+        end
+        
+        -- 金币
+        if nil == self.m_score then
+            self.m_score = ClipText:createClipText(cc.size(70, 20), self.m_userItem.lScore .. "")
+            self.m_score:setAnchorPoint(cc.p(0.5, 0.5))
+            self.m_score:setPosition(127/2+12, 177/2-63)
+            self.m_headBg:addChild(self.m_score)
+        else
+            self.m_score:setString(self.m_userItem.lScore .. "")
+        end
+    end
+end
+
 function GameRoleItem:switeGameState( isBanker )
+    self.m_headBg:setVisible(false) 
     self.m_popHead:setVisible(false) 
     if self.m_nViewId ~= cmd.MY_VIEWID then
         self.m_spInfoBg:setVisible(true)

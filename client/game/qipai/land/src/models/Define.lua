@@ -20,7 +20,9 @@ local enumTable =
     "BT_PASS",
     "BT_SUGGEST",
     "BT_OUTCARD",
-    "BT_INVITE"
+    "BT_INVITE",
+    "BT_SUBMENU"  --子游戏主界面的菜单按钮
+
 }
 Define.TAG_ENUM = ExternalFun.declarEnumWithTable(TAG_START, enumTable)
 

@@ -20,6 +20,9 @@ local SettingLayer = appdf.req(module_pre .. ".views.layer.SettingLayer")
 local TAG_ENUM = Define.TAG_ENUM
 local TAG_ZORDER = Define.TAG_ZORDER
 
+local ZORDER_LAYER = {}
+ZORDER_LAYER.ZORDER_Other_Layer = 8
+
 local GameViewLayer = class("GameViewLayer",function(scene)
         local gameViewLayer = display.newLayer()
     return gameViewLayer
@@ -38,6 +41,10 @@ function GameViewLayer:ctor(scene)
 end
 
 function GameViewLayer:paramInit()
+    --是否显示菜单层
+    self.m_bshowMenu = false
+    -- 菜单层
+    self.m_menulayout = nil
     -- 聊天层
     self.m_chatLayer = nil
     -- 结算层
@@ -166,9 +173,18 @@ function GameViewLayer:loadResource()
     --播放背景音乐
     ExternalFun.playBackgroudAudio("background.mp3")
 
-    local rootLayer, csbNode = ExternalFun.loadRootCSB("game/GameLayer.csb", self)
+    local rootLayer, csbNode = ExternalFun.loadRootCSB("game/GameLayer.csb", self, true)
     self.m_rootLayer = rootLayer
     self.m_csbNode = csbNode
+
+    local scaleValue = yl.CSB_WIDTH / yl.WIDTH
+    -- 自定义背景图
+    local bg = cc.Sprite:createWithSpriteFrameName("bg.png")
+        :setPosition(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
+        :setScale(scaleValue)
+        :setLocalZOrder(0)
+        :addTo(rootLayer)
+    csbNode:setLocalZOrder(1)
 
     local function btnEvent( sender, eventType )
         if eventType == ccui.TouchEventType.began then
@@ -188,37 +204,108 @@ function GameViewLayer:loadResource()
     self.m_tabCardCount[cmd.RIGHT_VIEWID] = self.m_cardControl:getChildByName("atlas_count_3")
     self.m_tabCardCount[cmd.RIGHT_VIEWID]:setLocalZOrder(1)
 
+
+    -----------------------------------------------------------------
+    --下拉菜单按钮
+    local btn = ccui.Button:create()
+    btn:loadTextureNormal("btn_dwn.png",UI_TEX_TYPE_PLIST)
+    btn:loadTexturePressed("btn_dwn.png",UI_TEX_TYPE_PLIST)
+    btn:setPosition(yl.WIDTH-78/3+10, yl.HEIGHT-78/2/scaleValue)
+    btn:setTag(TAG_ENUM.BT_SUBMENU)
+    btn:addTouchEventListener(btnEvent)
+    btn:addTo(csbNode)
+    self._downBtn = btn
+
+    --菜单栏
+    local layout = ccui.Layout:create()
+    layout:setContentSize(cc.size(175*2, 380*2))
+    layout:setPosition(btn:getPositionX()-32, btn:getPositionY()-380/2 - 78/2)
+    -- layout:setClippingEnabled(true)    
+    layout:addTo(csbNode)
+    self.m_menulayout = layout    
+
+    self.m_menulayout:retain()
+    self.m_menulayout:removeFromParent()
+    self:addToRootLayer(self.m_menulayout, ZORDER_LAYER.ZORDER_Other_Layer)
+    self.m_menulayout:release()
+    self.m_menulayout:setScale(1.0, 0.01)
+    self.m_menulayout:setVisible(false) 
+
+    -- 菜单背景图
+    cc.Sprite:createWithSpriteFrameName("bg_down.png"):addTo(layout)
+    
+    --托管按钮
+    btn = ccui.Button:create()
+    btn:loadTextureNormal("land_trust_0.png",UI_TEX_TYPE_PLIST)
+    btn:loadTexturePressed("land_trust_1.png",UI_TEX_TYPE_PLIST)
+    btn:setPosition(0, 58*2)
+    btn:setTag(TAG_ENUM.BT_TRU)
+    btn:addTouchEventListener(btnEvent)
+    btn:addTo(layout)
+    --聊天按钮
+    btn = ccui.Button:create()
+    btn:loadTextureNormal("land_chat_0.png",UI_TEX_TYPE_PLIST)
+    btn:loadTexturePressed("land_chat_1.png",UI_TEX_TYPE_PLIST)
+    btn:setPosition(0, 58*1-18)
+    btn:setTag(TAG_ENUM.BT_CHAT)
+    btn:addTouchEventListener(btnEvent)
+    btn:addTo(layout)
+    --设置
+    btn = ccui.Button:create()
+    btn:loadTextureNormal("land_setting_0.png",UI_TEX_TYPE_PLIST)
+    btn:loadTexturePressed("land_setting_1.png",UI_TEX_TYPE_PLIST)
+    btn:setPosition(0, -58*1+15)
+    btn:setTag(TAG_ENUM.BT_SET)
+    btn:addTouchEventListener(btnEvent)
+    btn:addTo(layout)
+    --退出按钮
+    btn = ccui.Button:create()
+    btn:loadTextureNormal("land_leave_0.png",UI_TEX_TYPE_PLIST)
+    btn:loadTexturePressed("land_leave_1.png",UI_TEX_TYPE_PLIST)
+    btn:setPosition(0, -58*2-15)
+    btn:setTag(TAG_ENUM.BT_EXIT)
+    btn:addTouchEventListener(btnEvent)
+    btn:addTo(layout)
+
+    -- 隐藏原版按钮
+    local top = csbNode:getChildByName("btn_layout")
+    top:getChildByName("chat_btn"):setVisible(false)
+    top:getChildByName("tru_btn"):setVisible(false)
+    top:getChildByName("set_btn"):setVisible(false)
+    top:getChildByName("back_btn"):setVisible(false)
+    -----------------------------------------------------------------
+
     ------
     --顶部菜单
 
     local top = csbNode:getChildByName("btn_layout")
-    --聊天按钮
-    local btn = top:getChildByName("chat_btn")
-    btn:setTag(TAG_ENUM.BT_CHAT)
-    btn:setSwallowTouches(true)
-    btn:addTouchEventListener(btnEvent)
+    -- --聊天按钮
+    -- local btn = top:getChildByName("chat_btn")
+    -- btn:setTag(TAG_ENUM.BT_CHAT)
+    -- btn:setSwallowTouches(true)
+    -- btn:addTouchEventListener(btnEvent)
 
-    --托管按钮
-    btn = top:getChildByName("tru_btn")
-    btn:setTag(TAG_ENUM.BT_TRU)
-    btn:setSwallowTouches(true)
-    btn:addTouchEventListener(btnEvent)
-    btn:setEnabled(not GlobalUserItem.bPrivateRoom)
-    if GlobalUserItem.bPrivateRoom then
-        btn:setOpacity(125)
-    end
+    -- --托管按钮
+    -- btn = top:getChildByName("tru_btn")
+    -- btn:setTag(TAG_ENUM.BT_TRU)
+    -- btn:setSwallowTouches(true)
+    -- btn:addTouchEventListener(btnEvent)
+    -- btn:setEnabled(not GlobalUserItem.bPrivateRoom)
+    -- if GlobalUserItem.bPrivateRoom then
+    --     btn:setOpacity(125)
+    -- end
 
-    --设置按钮
-    btn = top:getChildByName("set_btn")
-    btn:setTag(TAG_ENUM.BT_SET)
-    btn:setSwallowTouches(true)
-    btn:addTouchEventListener(btnEvent)
+    -- --设置按钮
+    -- btn = top:getChildByName("set_btn")
+    -- btn:setTag(TAG_ENUM.BT_SET)
+    -- btn:setSwallowTouches(true)
+    -- btn:addTouchEventListener(btnEvent)
 
-    --退出按钮
-    btn = top:getChildByName("back_btn")
-    btn:setTag(TAG_ENUM.BT_EXIT)
-    btn:setSwallowTouches(true)
-    btn:addTouchEventListener(btnEvent)
+    -- --退出按钮
+    -- btn = top:getChildByName("back_btn")
+    -- btn:setTag(TAG_ENUM.BT_EXIT)
+    -- btn:setSwallowTouches(true)
+    -- btn:addTouchEventListener(btnEvent)
 
     --叫分
     self.m_textGameCall = top:getChildByName("gamecall_text")
@@ -252,7 +339,7 @@ function GameViewLayer:loadResource()
 
     -- 帮助按钮 gameviewlayer -> gamelayer -> clientscene
     local url = yl.HTTP_URL .. "/Mobile/Introduce.aspx?kindid=200&typeid=0"
-    self:getParentNode():getParentNode():createHelpBtn(cc.p(1287, 698), 0, url, top)
+    self:getParentNode():getParentNode():createHelpBtn(cc.p(self._downBtn:getPositionX()-75, self._downBtn:getPositionY()), 0, url, top)
 
     --顶部菜单
     ------
@@ -382,9 +469,9 @@ function GameViewLayer:loadResource()
     self.m_atlasDiFeng:setString("")
 
     -- 头像位置
-    self.m_tabUserHeadPos[cmd.LEFT_VIEWID] = cc.p(207, 416)
+    self.m_tabUserHeadPos[cmd.LEFT_VIEWID] = cc.p(207, 510)
     self.m_tabUserHeadPos[cmd.MY_VIEWID] = cc.p(122, 178)
-    self.m_tabUserHeadPos[cmd.RIGHT_VIEWID] = cc.p(1150, 416)
+    self.m_tabUserHeadPos[cmd.RIGHT_VIEWID] = cc.p(1150, 510)
 
     -- 提示tip
     self.m_spInfoTip = infoLayout:getChildByName("info_tip")
@@ -589,9 +676,34 @@ function GameViewLayer:onExit()
 	ExternalFun.playPlazzBackgroudAudio()
 end
 
+--菜单栏操作
+function GameViewLayer:showMenu()
+    if self.m_bshowMenu == false then
+        self._downBtn:loadTextureNormal("btn_up.png",UI_TEX_TYPE_PLIST)
+        self.m_bshowMenu = true
+        self.m_menulayout:setVisible(true)
+        self.m_menulayout:runAction(cc.ScaleTo:create(0.2, 1.0))
+    else
+    -- dump(TAG_ENUM.BT_MENU, "隐藏菜单层", 6)
+        self._downBtn:loadTextureNormal("btn_dwn.png",UI_TEX_TYPE_PLIST)
+        self.m_bshowMenu = false
+        self.m_menulayout:runAction(cc.Sequence:create(
+            cc.ScaleTo:create(0.2, 1.0, 0.0001), 
+            cc.CallFunc:create(
+                function()
+                    self.m_menulayout:setVisible(false)
+                end
+                )
+            )
+        )
+    end
+end
+
 function GameViewLayer:onButtonClickedEvent(tag, ref)   
     ExternalFun.playClickEffect()
-    if TAG_ENUM.BT_CHAT == tag then             --聊天        
+    if TAG_ENUM.BT_SUBMENU == tag then  --菜单
+        self:showMenu()
+    elseif TAG_ENUM.BT_CHAT == tag then             --聊天        
         if nil == self.m_chatLayer then
             self.m_chatLayer = GameChatLayer:create(self._scene._gameFrame)
             self:addToRootLayer(self.m_chatLayer, TAG_ZORDER.CHAT_ZORDER)
@@ -1004,7 +1116,7 @@ end
 
 -- 用户更新
 function GameViewLayer:OnUpdateUser(viewId, userItem, bLeave)
-    print(" update user " .. viewId)
+    print(" 用户更新 update user " .. viewId)
     if bLeave then
         local roleItem = self.m_tabUserHead[viewId]
         if nil ~= roleItem then
@@ -1041,6 +1153,10 @@ function GameViewLayer:OnUpdateUser(viewId, userItem, bLeave)
 
     if cmd.MY_VIEWID == viewId then
         self:reSetUserInfo()
+    end
+
+    for k,v in pairs(self.m_tabUserHead) do
+        v:updateHeadInfos()
     end
 end
 
