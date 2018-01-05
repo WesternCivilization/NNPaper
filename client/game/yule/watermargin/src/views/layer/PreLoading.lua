@@ -14,7 +14,7 @@ PreLoading.bFishData = false
 
 local plists = {
 				-- "game1/gameAction/dagu.plist",
-				-- "game1/gameAction/flash.plist",
+				"game1/gameAction/flash.plist",
 				"game1/gameAction/game1_itemCommon.plist",
 				"game1/gameAction/game1_itemJump.plist",
 				-- "game1/gameAction/piaoqi.plist",
