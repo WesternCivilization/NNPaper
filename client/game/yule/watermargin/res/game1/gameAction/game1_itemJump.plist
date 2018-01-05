@@ -7,7 +7,7 @@
             <key>jump_dadao_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{575,1194},{210,147}}</string>
+                <string>{{210,1239},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,11 +20,11 @@
             <key>jump_dadao_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{363,1194},{210,147}}</string>
+                <string>{{294,882},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -33,7 +33,7 @@
             <key>jump_dadao_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{151,1194},{210,147}}</string>
+                <string>{{147,1092},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,11 +46,11 @@
             <key>jump_dadao_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1698},{210,147}}</string>
+                <string>{{0,1260},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -59,20 +59,20 @@
             <key>jump_dadao_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1486},{210,147}}</string>
+                <string>{{831,1217},{198,137}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
+                <string>{{0,0},{198,137}}</string>
                 <key>sourceSize</key>
-                <string>{210,147}</string>
+                <string>{198,137}</string>
             </dict>
             <key>jump_futou_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1274},{210,147}}</string>
+                <string>{{0,1050},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>jump_futou_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{850,1062},{210,147}}</string>
+                <string>{{147,882},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>jump_futou_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,1045},{210,147}}</string>
+                <string>{{777,777},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>jump_futou_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,1045},{210,147}}</string>
+                <string>{{567,735},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,20 +124,20 @@
             <key>jump_futou_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,1045},{210,147}}</string>
+                <string>{{753,1019},{198,137}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
+                <string>{{0,0},{198,137}}</string>
                 <key>sourceSize</key>
-                <string>{210,147}</string>
+                <string>{198,137}</string>
             </dict>
             <key>jump_lin_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1045},{210,147}}</string>
+                <string>{{357,735},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -150,11 +150,11 @@
             <key>jump_lin_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,896},{210,147}}</string>
+                <string>{{0,840},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -163,7 +163,7 @@
             <key>jump_lin_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,896},{210,147}}</string>
+                <string>{{147,735},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -176,7 +176,7 @@
             <key>jump_lin_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,896},{210,147}}</string>
+                <string>{{777,630},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +189,20 @@
             <key>jump_lin_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,896},{210,147}}</string>
+                <string>{{694,1217},{198,137}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{198,137}}</string>
+                <key>sourceSize</key>
+                <string>{198,137}</string>
+            </dict>
+            <key>jump_lu_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{567,588},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -199,23 +212,10 @@
                 <key>sourceSize</key>
                 <string>{210,147}</string>
             </dict>
-            <key>jump_lu_01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{850,850},{210,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
-                <key>sourceSize</key>
-                <string>{210,147}</string>
-            </dict>
             <key>jump_lu_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,747},{210,147}}</string>
+                <string>{{630,441},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +228,7 @@
             <key>jump_lu_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,747},{210,147}}</string>
+                <string>{{420,441},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +241,7 @@
             <key>jump_lu_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,747},{210,147}}</string>
+                <string>{{357,588},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -254,7 +254,20 @@
             <key>jump_lu_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,747},{210,147}}</string>
+                <string>{{557,1217},{198,137}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{198,137}}</string>
+                <key>sourceSize</key>
+                <string>{198,137}</string>
+            </dict>
+            <key>jump_shz_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{210,441},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -264,23 +277,10 @@
                 <key>sourceSize</key>
                 <string>{210,147}</string>
             </dict>
-            <key>jump_shz_01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{850,638},{210,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
-                <key>sourceSize</key>
-                <string>{210,147}</string>
-            </dict>
             <key>jump_shz_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,598},{210,147}}</string>
+                <string>{{147,588},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -293,7 +293,7 @@
             <key>jump_shz_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,598},{210,147}}</string>
+                <string>{{0,441},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -306,11 +306,11 @@
             <key>jump_shz_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,598},{210,147}}</string>
+                <string>{{0,630},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -319,24 +319,24 @@
             <key>jump_shz_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,598},{210,147}}</string>
+                <string>{{555,1080},{198,137}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
+                <string>{{0,0},{198,137}}</string>
                 <key>sourceSize</key>
-                <string>{210,147}</string>
+                <string>{198,137}</string>
             </dict>
             <key>jump_song_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,449},{210,147}}</string>
+                <string>{{840,420},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -345,7 +345,7 @@
             <key>jump_song_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,449},{210,147}}</string>
+                <string>{{630,294},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -358,7 +358,7 @@
             <key>jump_song_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,449},{210,147}}</string>
+                <string>{{420,294},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -371,7 +371,7 @@
             <key>jump_song_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,449},{210,147}}</string>
+                <string>{{210,294},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -384,20 +384,20 @@
             <key>jump_song_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{850,426},{210,147}}</string>
+                <string>{{420,1229},{198,137}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
+                <string>{{0,0},{198,137}}</string>
                 <key>sourceSize</key>
-                <string>{210,147}</string>
+                <string>{198,137}</string>
             </dict>
             <key>jump_ttxd_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,300},{210,147}}</string>
+                <string>{{0,294},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -410,11 +410,11 @@
             <key>jump_ttxd_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,300},{210,147}}</string>
+                <string>{{840,210},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -423,11 +423,11 @@
             <key>jump_ttxd_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,300},{210,147}}</string>
+                <string>{{840,210},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{210,147}}</string>
                 <key>sourceSize</key>
@@ -436,7 +436,7 @@
             <key>jump_ttxd_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,300},{210,147}}</string>
+                <string>{{630,147},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -449,7 +449,20 @@
             <key>jump_ttxd_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,300},{210,147}}</string>
+                <string>{{578,882},{198,137}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{198,137}}</string>
+                <key>sourceSize</key>
+                <string>{198,137}</string>
+            </dict>
+            <key>jump_yin_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{420,147},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -459,23 +472,10 @@
                 <key>sourceSize</key>
                 <string>{210,147}</string>
             </dict>
-            <key>jump_yin_01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{850,214},{210,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
-                <key>sourceSize</key>
-                <string>{210,147}</string>
-            </dict>
             <key>jump_yin_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,151},{210,147}}</string>
+                <string>{{210,147},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -488,7 +488,7 @@
             <key>jump_yin_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,151},{210,147}}</string>
+                <string>{{0,147},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -501,33 +501,7 @@
             <key>jump_yin_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,151},{210,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
-                <key>sourceSize</key>
-                <string>{210,147}</string>
-            </dict>
-            <key>jump_yin_05.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,151},{210,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
-                <key>sourceSize</key>
-                <string>{210,147}</string>
-            </dict>
-            <key>jump_zyt_01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{850,2},{210,147}}</string>
+                <string>{{840,0},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -537,10 +511,36 @@
                 <key>sourceSize</key>
                 <string>{210,147}</string>
             </dict>
+            <key>jump_yin_05.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{441,882},{198,137}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{198,137}}</string>
+                <key>sourceSize</key>
+                <string>{198,137}</string>
+            </dict>
+            <key>jump_zyt_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{630,0},{210,147}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{210,147}}</string>
+                <key>sourceSize</key>
+                <string>{210,147}</string>
+            </dict>
             <key>jump_zyt_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{638,2},{210,147}}</string>
+                <string>{{420,0},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -553,7 +553,7 @@
             <key>jump_zyt_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,2},{210,147}}</string>
+                <string>{{210,0},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -566,7 +566,7 @@
             <key>jump_zyt_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{214,2},{210,147}}</string>
+                <string>{{0,0},{210,147}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -579,15 +579,15 @@
             <key>jump_zyt_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{210,147}}</string>
+                <string>{{357,1092},{198,137}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{210,147}}</string>
+                <string>{{0,0},{198,137}}</string>
                 <key>sourceSize</key>
-                <string>{210,147}</string>
+                <string>{198,137}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -597,9 +597,9 @@
             <key>realTextureFileName</key>
             <string>game1_itemJump.png</string>
             <key>size</key>
-            <string>{1024,2048}</string>
+            <string>{1008,1427}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:189c7b96067e5631134fc2fd1085737c$</string>
+            <string>$TexturePacker:SmartUpdate:8d5a3266c181b4d421a2c9d4eb58ee4a:1/1$</string>
             <key>textureFileName</key>
             <string>game1_itemJump.png</string>
         </dict>

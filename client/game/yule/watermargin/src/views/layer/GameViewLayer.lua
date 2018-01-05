@@ -300,6 +300,12 @@ function Game1ViewLayer:initMainView(  )
         local node = self._csbNode:getChildByName(nodeStr)
         if node  then
             node:setPositionY(node:getPositionY()+80)
+
+            -- 增加边框
+            ccui.ImageView:create("common/water_kuang.png")
+            :move(node:getPosition())
+            :setName("kuang"..nodeStr)
+            :addTo(self._csbNode)
         end
     end
 

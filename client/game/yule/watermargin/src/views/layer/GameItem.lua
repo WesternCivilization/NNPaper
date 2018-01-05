@@ -213,7 +213,7 @@ function GameItem:setState( nState )
 	 --   		)
 	 --   	self.m_pSprite:runAction(action)
 
-		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(string.format(strPath[self.m_nType],2))  
+		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(string.format(strPath[self.m_nType],0))  
 		self.m_pSprite:setSpriteFrame(frame)
 
 
