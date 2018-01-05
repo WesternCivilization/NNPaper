@@ -127,24 +127,24 @@ function PreLoading.loadTextures()
 				PreLoading.loadingPer = 100
 				PreLoading.updatePercent(PreLoading.loadingPer)
 
-				local callfunc1 = cc.CallFunc:create(function()
-					PreLoading.loadingBG:loadTexture(res_path.."loading/preBg_02.png")
-				end)
-				local callfunc2 = cc.CallFunc:create(function()
-					PreLoading.loadingBG:loadTexture(res_path.."loading/preBg_03.png")
-				end)
-				local callfunc3 = cc.CallFunc:create(function()
-					PreLoading.loadingBG:loadTexture(res_path.."loading/preBg_04.png")
-				end)
-				local callfunc4 = cc.CallFunc:create(function()
-					PreLoading.loadingBar:stopAllActions()
-					PreLoading.loadingBar = nil
-					layer:stopAllActions()
-					layer:removeFromParent()
+				-- local callfunc1 = cc.CallFunc:create(function()
+				-- 	PreLoading.loadingBG:loadTexture(res_path.."game1/game1_bg.png")
+				-- end)
+				-- local callfunc2 = cc.CallFunc:create(function()
+				-- 	PreLoading.loadingBG:loadTexture(res_path.."loading/preBg_03.png")
+				-- end)
+				-- local callfunc3 = cc.CallFunc:create(function()
+				-- 	PreLoading.loadingBG:loadTexture(res_path.."loading/preBg_04.png")
+				-- end)
+				-- local callfunc4 = cc.CallFunc:create(function()
+				-- 	PreLoading.loadingBar:stopAllActions()
+				-- 	PreLoading.loadingBar = nil
+				-- 	layer:stopAllActions()
+				-- 	layer:removeFromParent()
 
-				end)
-				layer:stopAllActions()
-				layer:runAction(cc.Sequence:create(callfunc1,cc.DelayTime:create(0.8),callfunc2,cc.DelayTime:create(0.8),callfunc3,cc.DelayTime:create(0.8),callfunc4))
+				-- end)
+				-- layer:stopAllActions()
+				-- layer:runAction(cc.Sequence:create(callfunc1,cc.DelayTime:create(0.8),callfunc2,cc.DelayTime:create(0.8),callfunc3,cc.DelayTime:create(0.8),callfunc4))
 			end
         	print("资源加载完成")
         end
@@ -272,7 +272,7 @@ function PreLoading.GameLoadingView()
 	layer:setTag(2000)
 	scene:addChild(layer,30)
 
-	PreLoading.loadingBG = ccui.ImageView:create(res_path.."loading/preBg_01.png")
+	PreLoading.loadingBG = ccui.ImageView:create(res_path.."game1/game1_bg.png")
 	PreLoading.loadingBG:setTag(1)
 	PreLoading.loadingBG:setTouchEnabled(true)
 	PreLoading.loadingBG:setPosition(cc.p(yl.WIDTH/2,yl.HEIGHT/2))
@@ -290,6 +290,11 @@ function PreLoading.GameLoadingView()
     PreLoading.loadingBar:setPosition(cc.p(loadingBarBG:getContentSize().width/2,loadingBarBG:getContentSize().height/2))
     PreLoading.loadingBar:runAction(cc.ProgressTo:create(0.2,20))
     loadingBarBG:addChild(PreLoading.loadingBar)
+
+    PreLoading.stateLabel = cc.Label:createWithTTF("（免流量）正在加载资源，请稍候...","fonts/round_body.ttf",20)
+	:move(cc.p(loadingBarBG:getContentSize().width/2,loadingBarBG:getContentSize().height/2+20))
+	:addTo(loadingBarBG)
+
 end
 
 function PreLoading.updatePercent(percent )

@@ -154,7 +154,7 @@ end
 ---------------------------------------------------------------------------------------
 --界面初始化
 function Game1ViewLayer:initCsbRes(  )
-	rootLayer, self._csbNode = ExternalFun.loadRootCSB(GameViewLayer.RES_PATH .."SHZ_Game1Layer.csb", self)
+	rootLayer, self._csbNode = ExternalFun.loadRootCSB(GameViewLayer.RES_PATH .."SHZ_Game1Layer.csb", self, true)
 
 	--初始化按钮
 	self:initUI(self._csbNode)
@@ -163,6 +163,15 @@ end
 
 --初始化按钮
 function Game1ViewLayer:initUI( csbNode )
+    -- 自定义背景图
+    local scaleValue = yl.CSB_WIDTH / yl.WIDTH
+    local bg = cc.Sprite:create("game1_bg.png")
+        :setPosition(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
+        :setScale(scaleValue)
+        :setLocalZOrder(0)
+        :addTo(rootLayer)
+    csbNode:setLocalZOrder(1)
+
 	--按钮回调方法
     local function btnEvent( sender, eventType )
         if eventType == ccui.TouchEventType.began then
