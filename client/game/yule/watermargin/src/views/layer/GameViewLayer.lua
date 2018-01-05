@@ -303,7 +303,7 @@ function Game1ViewLayer:initMainView(  )
 
             -- 增加边框
             ccui.ImageView:create("common/water_kuang.png")
-            :move(node:getPosition())
+            :move(node:getPositionX(),node:getPositionY()-4)
             :setName("kuang"..nodeStr)
             :addTo(self._csbNode)
         end
