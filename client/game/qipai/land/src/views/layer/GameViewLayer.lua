@@ -925,7 +925,7 @@ function GameViewLayer:onPassOutCard()
     if nil ~= frame then
         if self.m_tabStateSp[cmd.MY_VIEWID].chgX == nil then
             self.m_tabStateSp[cmd.MY_VIEWID].chgX = true
-            self.m_tabStateSp[cmd.MY_VIEWID]:setPositionX(self.m_tabStateSp[cmd.MY_VIEWID]:getPositionX()+15)
+            self.m_tabStateSp[cmd.MY_VIEWID]:setPositionX(self.m_tabStateSp[cmd.MY_VIEWID]:getPositionX()+40)
         end
         self.m_tabStateSp[cmd.MY_VIEWID]:setSpriteFrame(frame)
     end

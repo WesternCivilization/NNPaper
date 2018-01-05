@@ -114,7 +114,6 @@ function ClientScene:onCreate()
             27,  --四人牛牛
             104, --百人牛牛
             200, --斗地主
-            200, --斗地主
         }
     }
 
