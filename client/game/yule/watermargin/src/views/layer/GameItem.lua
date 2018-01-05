@@ -25,6 +25,8 @@ GameItem.ACT_SHUIHUZHUAN_NUM			= 57			--水浒传
 
 GameItem.GAME_IMG_TAG = 100
 
+local ItemSize = cc.p(202,143)  --卡片大小
+
 function GameItem:ctor(  )
 
 end
@@ -40,7 +42,7 @@ function GameItem:created( nType )
 end
 
 function GameItem:initNotice(  )
-	self:setClippingRegion(cc.rect(0,0,210,149))
+	self:setClippingRegion(cc.rect(0,0,ItemSize.x,ItemSize.y))
 	self:setClippingEnabled(true)
 
 end
@@ -56,15 +58,17 @@ end
 function GameItem:beginMove( deyTime )
 	if self.m_pSprite == nil then
 		self.m_pSprite = cc.Sprite:create("common_MoveImg.png")
+		self.m_pSprite:setScaleX(ItemSize.x/210)
+		self.m_pSprite:setScaleY(ItemSize.y/149)
 	end
 
 	self:addChild(self.m_pSprite,0)
-	self.m_pSprite:setPosition(cc.p(105,689))
+	self.m_pSprite:setPosition(cc.p(ItemSize.x/2,689))
 
 	local actMove = cc.RepeatForever:create(
 		cc.Sequence:create(
 			cc.MoveBy:create(0.5,cc.p(0,-1378)),
-			cc.MoveTo:create(0.01,cc.p(105.5,689))
+			cc.MoveTo:create(0.01,cc.p(ItemSize.x/2,689))
 			)
 		)
 	actMove:setTag(GameItem.GAME_IMG_TAG)
@@ -122,7 +126,7 @@ function GameItem:beginJump(  )
 
 	   	self.m_pSprite:runAction(seq)
 	self.m_pSprite:setAnchorPoint(0.5,0.5)
-	self.m_pSprite:setPosition(cc.p(self.m_pSprite:getContentSize().width/2,self.m_pSprite:getContentSize().height/2+3))
+	self.m_pSprite:setPosition(cc.p(self.m_pSprite:getContentSize().width/2,self.m_pSprite:getContentSize().height/2))
 	end
 end
 
@@ -226,7 +230,7 @@ function GameItem:setState( nState )
 		self.m_pSprite:setSpriteFrame(spriteFrame)
 	end
 	self.m_pSprite:setAnchorPoint(0.5,0.5)
-	self.m_pSprite:setPosition(cc.p(self.m_pSprite:getContentSize().width/2,self.m_pSprite:getContentSize().height/2+3))
+	self.m_pSprite:setPosition(cc.p(self.m_pSprite:getContentSize().width/2-2,self.m_pSprite:getContentSize().height/2))
 
 end
 

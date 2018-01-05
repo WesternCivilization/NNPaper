@@ -38,6 +38,8 @@ local HelpLayer = appdf.req(module_pre .. ".views.layer.HelpLayer")
 
 GameViewLayer.RES_PATH 				= device.writablePath.. "game/yule/watermargin/res/"
 
+local Game1ItemSize = cc.size(202,143)  --卡片大小
+
 local enGameLayer = 
 {
 	"TAG_SETTING_MENU",			--设置
@@ -303,7 +305,7 @@ function Game1ViewLayer:initMainView(  )
 
             -- 增加边框
             ccui.ImageView:create("common/water_kuang.png")
-            :move(node:getPositionX(),node:getPositionY()-4)
+            :move(node:getPositionX()-2,node:getPositionY()-4)
             :setName("kuang"..nodeStr)
             :addTo(self._csbNode)
         end
@@ -358,7 +360,7 @@ function Game1ViewLayer:game1Begin(  )
 				end
 				node:addChild(pItem,0,1)
 				pItem:setAnchorPoint(0.5,0.5)
-				pItem:setContentSize(cc.size(210,145))
+				pItem:setContentSize(Game1ItemSize)
 				pItem:setPosition(0,0)
 				node:runAction(
 					cc.Sequence:create(
@@ -410,6 +412,7 @@ function Game1ViewLayer:game1End(  )
 end
 --游戏1结果
 function Game1ViewLayer:game1Result()
+    print("############  game1Result  ##############")
 
 	self._scene:setGameMode(3) --GAME_STATE_RESULT
 	self.m_textGetScore:setString(self._scene.m_lGetCoins)
@@ -1630,7 +1633,7 @@ function Game3ViewLayer:game3Begin()
 			end
 			node:addChild(pItem)
 			pItem:setAnchorPoint(0.5,0.5)
-			pItem:setContentSize(cc.size(210,145))
+			pItem:setContentSize(Game1ItemSize)
 			pItem:setPosition(0,0)
 			node:runAction(
 				cc.Sequence:create(
