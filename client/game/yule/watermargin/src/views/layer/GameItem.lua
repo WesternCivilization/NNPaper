@@ -152,31 +152,31 @@ function GameItem:setState( nState )
 		"common_icon_%d8.png",
 		"common_icon_%d9.png",
 	}
-	local strAnimePath = 
-	{
-		"action_futou_%02d.png",
-		"action_yinqiang_%02d.png",
-		"action_dadao_%02d.png",
-		"action_lu_%02d.png",
-		"action_lin_%02d.png",
-		"action_song_%02d.png",
-		"action_ttxd_%02d.png",
-		"action_zyt_%02d.png",
-		"action_shz_%02d.png",
-	}
-	--序列帧数目
-	local nAnimeNum = 
-	{
-		GameItem.ACT_FUTOU_NUM,
-		GameItem.ACT_YINQIANG_NUM,
-		GameItem.ACT_DADAO_NUM,
-		GameItem.ACT_LU_NUM,
-		GameItem.ACT_LIN_NUM,
-		GameItem.ACT_SONG_NUM,
-		GameItem.ACT_TITIANXINGDAO_NUM,
-		GameItem.ACT_ZHONGYITANG_NUM,
-		GameItem.ACT_SHUIHUZHUAN_NUM
-	}
+	-- local strAnimePath = 
+	-- {
+	-- 	"action_futou_%02d.png",
+	-- 	"action_yinqiang_%02d.png",
+	-- 	"action_dadao_%02d.png",
+	-- 	"action_lu_%02d.png",
+	-- 	"action_lin_%02d.png",
+	-- 	"action_song_%02d.png",
+	-- 	"action_ttxd_%02d.png",
+	-- 	"action_zyt_%02d.png",
+	-- 	"action_shz_%02d.png",
+	-- }
+	-- --序列帧数目
+	-- local nAnimeNum = 
+	-- {
+	-- 	GameItem.ACT_FUTOU_NUM,
+	-- 	GameItem.ACT_YINQIANG_NUM,
+	-- 	GameItem.ACT_DADAO_NUM,
+	-- 	GameItem.ACT_LU_NUM,
+	-- 	GameItem.ACT_LIN_NUM,
+	-- 	GameItem.ACT_SONG_NUM,
+	-- 	GameItem.ACT_TITIANXINGDAO_NUM,
+	-- 	GameItem.ACT_ZHONGYITANG_NUM,
+	-- 	GameItem.ACT_SHUIHUZHUAN_NUM
+	-- }
 
 	if nState == ITEM_STATE.STATE_NORMAL then
 		--正常纹理
@@ -191,27 +191,31 @@ function GameItem:setState( nState )
 	    end
 
 	elseif	nState == ITEM_STATE.STATE_SELECT then
-		--播放序列帧动画
-		local animation =cc.Animation:create()
-		for i=1,nAnimeNum[self.m_nType] do
-		    local frameName =string.format(strAnimePath[self.m_nType],i)
-		    --print("frameName =%s",frameName)
-		    local spriteFrame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
-		   	animation:addSpriteFrame(spriteFrame)
-		end  
-	   	animation:setDelayPerUnit(3/nAnimeNum[self.m_nType])          --设置两个帧播放时间                   
-	   	animation:setRestoreOriginalFrame(false)    --动画执行后还原初始状态    
+		-- --播放序列帧动画
+		-- local animation =cc.Animation:create()
+		-- for i=1,nAnimeNum[self.m_nType] do
+		--     local frameName =string.format(strAnimePath[self.m_nType],i)
+		--     --print("frameName =%s",frameName)
+		--     local spriteFrame = cc.SpriteFrameCache:getInstance():getSpriteFrame(frameName)
+		--    	animation:addSpriteFrame(spriteFrame)
+		-- end  
+	 --   	animation:setDelayPerUnit(3/nAnimeNum[self.m_nType])          --设置两个帧播放时间                   
+	 --   	animation:setRestoreOriginalFrame(false)    --动画执行后还原初始状态    
 
-	   	local action =cc.Animate:create(animation)
-	   	local seq =   cc.Sequence:create(
-	   			action,
-	   			cc.CallFunc:create(function (  )
-					local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(string.format(strPath[self.m_nType],2))  
+	 --   	local action =cc.Animate:create(animation)
+	 --   	local seq =   cc.Sequence:create(
+	 --   			action,
+	 --   			cc.CallFunc:create(function (  )
+		-- 			local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(string.format(strPath[self.m_nType],2))  
 
-	   				self.m_pSprite:setSpriteFrame(frame)
-	   			end)
-	   		)
-	   	self.m_pSprite:runAction(action)
+	 --   				self.m_pSprite:setSpriteFrame(frame)
+	 --   			end)
+	 --   		)
+	 --   	self.m_pSprite:runAction(action)
+
+		local frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(string.format(strPath[self.m_nType],2))  
+		self.m_pSprite:setSpriteFrame(frame)
+
 
 	elseif	nState == ITEM_STATE.STATE_GREY then
 		--灰色纹理

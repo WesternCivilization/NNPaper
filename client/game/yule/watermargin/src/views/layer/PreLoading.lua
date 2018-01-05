@@ -12,6 +12,53 @@ PreLoading.bLoadingFinish = false
 PreLoading.loadingPer = 20
 PreLoading.bFishData = false
 
+local plists = {
+				-- "game1/gameAction/dagu.plist",
+				-- "game1/gameAction/flash.plist",
+				"game1/gameAction/game1_itemCommon.plist",
+				"game1/gameAction/game1_itemJump.plist",
+				-- "game1/gameAction/piaoqi.plist",
+				-- "game1/gameAction/piaoqi2.plist",
+				-- "game1/gameAction/shz_title.plist",
+				"game1/itemAction/box_frame.plist",
+				-- "game1/itemAction/dadao.plist",
+				-- "game1/itemAction/futou.plist",
+				-- "game1/itemAction/lin.plist",
+				-- "game1/itemAction/lu.plist",
+				-- "game1/itemAction/shuihuzhuan.plist",
+				-- "game1/itemAction/song.plist",
+				-- "game1/itemAction/titianxingdao.plist",
+				-- "game1/itemAction/yinqiang.plist",
+				-- "game1/itemAction/zhongyitang.plist",
+				-- "game1/itemAction/light.plist",
+
+				"game2/dealer/dealer_common.plist",
+				"game2/dealer/dealer_anger1.plist",
+				"game2/dealer/dealer_anger2.plist",
+				"game2/dealer/dealer_cry.plist",
+				"game2/dealer/dealer_dice1.plist",
+				"game2/dealer/dealer_dice2.plist",
+				"game2/dealer/dealer_happy.plist",
+				"game2/dealer/dealer_open.plist",
+
+				"game2/left/left_cheer.plist",
+				"game2/left/left_common.plist",
+				"game2/left/left_cry.plist",
+				"game2/left/left_happy.plist",
+
+				"game2/right/right_cheer1.plist",
+				"game2/right/right_cheer2.plist",
+				"game2/right/right_common.plist",
+				"game2/right/right_common2.plist",
+				"game2/right/right_cry.plist",
+				"game2/right/right_happy.plist",
+
+				"game2/desk/desk.plist",
+				"game2/gold_action/gold.plist",
+
+				"setting/setLayer.plist"
+			   }
+
 function PreLoading.resetData()
 	PreLoading.bLoadingFinish = false
 	PreLoading.loadingPer = 20
@@ -41,52 +88,6 @@ function PreLoading.loadTextures()
 	local m_nImageOffset = 0
 
 	local totalSource = 1 
-
-	local plists = {"game1/gameAction/dagu.plist",
-					"game1/gameAction/flash.plist",
-					"game1/gameAction/game1_itemCommon.plist",
-					"game1/gameAction/game1_itemJump.plist",
-					"game1/gameAction/piaoqi.plist",
-					"game1/gameAction/piaoqi2.plist",
-					"game1/gameAction/shz_title.plist",
-					"game1/itemAction/box_frame.plist",
-					"game1/itemAction/dadao.plist",
-					"game1/itemAction/futou.plist",
-					"game1/itemAction/lin.plist",
-					"game1/itemAction/lu.plist",
-					"game1/itemAction/shuihuzhuan.plist",
-					"game1/itemAction/song.plist",
-					"game1/itemAction/titianxingdao.plist",
-					"game1/itemAction/yinqiang.plist",
-					"game1/itemAction/zhongyitang.plist",
-					"game1/itemAction/light.plist",
-
-					"game2/dealer/dealer_common.plist",
-					"game2/dealer/dealer_anger1.plist",
-					"game2/dealer/dealer_anger2.plist",
-					"game2/dealer/dealer_cry.plist",
-					"game2/dealer/dealer_dice1.plist",
-					"game2/dealer/dealer_dice2.plist",
-					"game2/dealer/dealer_happy.plist",
-					"game2/dealer/dealer_open.plist",
-
-					"game2/left/left_cheer.plist",
-					"game2/left/left_common.plist",
-					"game2/left/left_cry.plist",
-					"game2/left/left_happy.plist",
-
-					"game2/right/right_cheer1.plist",
-					"game2/right/right_cheer2.plist",
-					"game2/right/right_common.plist",
-					"game2/right/right_common2.plist",
-					"game2/right/right_cry.plist",
-					"game2/right/right_happy.plist",
-
-					"game2/desk/desk.plist",
-					"game2/gold_action/gold.plist",
-
-					"setting/setLayer.plist"
-				   }
 
 	local function imageLoaded(texture)--texture
 		
@@ -168,53 +169,6 @@ function PreLoading.loadTextures()
 end
 
 function PreLoading.unloadTextures( )
-
-	local plists = {"game1/gameAction/dagu.plist",
-					"game1/gameAction/flash.plist",
-					"game1/gameAction/game1_itemCommon.plist",
-					"game1/gameAction/game1_itemJump.plist",
-					"game1/gameAction/piaoqi.plist",
-					"game1/gameAction/piaoqi2.plist",
-					"game1/gameAction/shz_title.plist",
-					"game1/itemAction/box_frame.plist",
-					"game1/itemAction/dadao.plist",
-					"game1/itemAction/futou.plist",
-					"game1/itemAction/lin.plist",
-					"game1/itemAction/lu.plist",
-					"game1/itemAction/shuihuzhuan.plist",
-					"game1/itemAction/song.plist",
-					"game1/itemAction/titianxingdao.plist",
-					"game1/itemAction/yinqiang.plist",
-					"game1/itemAction/zhongyitang.plist",
-					"game1/itemAction/light.plist",
-
-					"game2/dealer/dealer_common.plist",
-					"game2/dealer/dealer_anger1.plist",
-					"game2/dealer/dealer_anger2.plist",
-					"game2/dealer/dealer_cry.plist",
-					"game2/dealer/dealer_dice1.plist",
-					"game2/dealer/dealer_dice2.plist",
-					"game2/dealer/dealer_happy.plist",
-					"game2/dealer/dealer_open.plist",
-
-					"game2/left/left_cheer.plist",
-					"game2/left/left_common.plist",
-					"game2/left/left_cry.plist",
-					"game2/left/left_happy.plist",
-
-					"game2/right/right_cheer1.plist",
-					"game2/right/right_cheer2.plist",
-					"game2/right/right_common.plist",
-					"game2/right/right_common2.plist",
-					"game2/right/right_cry.plist",
-					"game2/right/right_happy.plist",
-
-					"game2/desk/desk.plist",
-					"game2/gold_action/gold.plist",
-
-					"setting/setLayer.plist"
-				   }
-
 	for i=1,#plists do
 		local dict = cc.FileUtils:getInstance():getValueMapFromFile(res_path..plists[i])
 
