@@ -295,6 +295,10 @@ function PreLoading.GameLoadingView()
 	:move(cc.p(loadingBarBG:getContentSize().width/2,loadingBarBG:getContentSize().height/2+20))
 	:addTo(loadingBarBG)
 
+    PreLoading.logoImg = ccui.ImageView:create(res_path.."loading/logo.png")
+	:move(cc.p(yl.WIDTH/2,yl.HEIGHT/2))
+	:addTo(layer)
+
 end
 
 function PreLoading.updatePercent(percent )

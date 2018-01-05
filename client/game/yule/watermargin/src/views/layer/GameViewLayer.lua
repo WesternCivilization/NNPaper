@@ -166,11 +166,27 @@ function Game1ViewLayer:initUI( csbNode )
     -- 自定义背景图
     local scaleValue = yl.CSB_WIDTH / yl.WIDTH
     local bg = cc.Sprite:create("game1_bg.png")
-        :setPosition(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
+        :move(yl.CSB_WIDTH/2, yl.CSB_HEIGHT/2)
         :setScale(scaleValue)
         :setLocalZOrder(0)
         :addTo(rootLayer)
     csbNode:setLocalZOrder(1)
+
+    -- 左右两列数字图片
+    local numList = {
+        {5,3,7,9,1,8,6,2,4},  --从下到上排列
+        {5,3,7,9,1,8,6,2,4}   --从下到上排列
+    }
+    for col,row in pairs(numList) do
+        for i=1,#row do
+            local url = string.format("common/water_num_%d.png",row[i])
+            local x = 64 + 1194 * ((col-1) % 2)
+            local y = 200 + 56 * (i-1)
+            cc.Sprite:create(url)
+                :move(x,y)
+                :addTo(rootLayer)
+        end        
+    end
 
 	--按钮回调方法
     local function btnEvent( sender, eventType )
@@ -231,6 +247,7 @@ function Game1ViewLayer:initUI( csbNode )
 
 	self.m_textTips = csbNode:getChildByName("Text_Tips")
 	self.m_textTips:setString("祝您好运！")
+    self.m_textTips:move(self.m_textTips:getPositionX(),self.m_textTips:getPositionY()+70)
 	------
 	--菜单  
 	self.m_nodeMenu = csbNode:getChildByName("Node_Menu");
@@ -251,29 +268,52 @@ function Game1ViewLayer:initUI( csbNode )
 	Button_Hide:setTag(TAG_ENUM.TAG_HIDEUP_BTN);
 	Button_Hide:addTouchEventListener(btnEvent);
 
-	self.Node_top = csbNode:getChildByName("Node_top");
+	self.Node_top = csbNode:getChildByName("Node_top")
 
 	self.Node_btnEffet = csbNode:getChildByName("Node_btnEffet")
 end
 
 --游戏1的通用动画
 function Game1ViewLayer:initMainView(  )
-	--打鼓
-	local daguAnim = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("daguAnim"))
-   	local nodeDagu = self.Node_top:getChildByName("Sprite_dagu")
-   	nodeDagu:runAction(cc.RepeatForever:create(daguAnim))
-   	--标题
-	local titleAnim = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("titleAnim"))
-   	local nodeTitle = self.Node_top:getChildByName("Sprite_title")
-   	nodeTitle:runAction(cc.RepeatForever:create(titleAnim))
-   	--飘旗
-	local piaoqiAnim1 = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("wYaoqiAnim"))
-   	local nodePiaoqi = self.Node_top:getChildByName("Sprite_piaoqi")
-   	nodePiaoqi:runAction(cc.RepeatForever:create(piaoqiAnim1))
-    --飘旗2
-   	local piaoqiAnim2 = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("rYaoqiAnim"))
-   	local nodePiaoqi2 = self.Node_top:getChildByName("Sprite_piaoqi2")
-   	nodePiaoqi2:runAction(cc.RepeatForever:create(piaoqiAnim2))
+	-- -- --打鼓
+	-- local daguAnim = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("daguAnim"))
+ --   	local nodeDagu = self.Node_top:getChildByName("Sprite_dagu")
+ --   	nodeDagu:runAction(cc.RepeatForever:create(daguAnim))
+ --   	--标题
+	-- local titleAnim = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("titleAnim"))
+ --   	local nodeTitle = self.Node_top:getChildByName("Sprite_title")
+ --   	nodeTitle:runAction(cc.RepeatForever:create(titleAnim))
+ --   	--飘旗
+	-- local piaoqiAnim1 = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("wYaoqiAnim"))
+ --   	local nodePiaoqi = self.Node_top:getChildByName("Sprite_piaoqi")
+ --   	nodePiaoqi:runAction(cc.RepeatForever:create(piaoqiAnim1))
+ --    --飘旗2
+ --   	local piaoqiAnim2 = cc.Animate:create(cc.AnimationCache:getInstance():getAnimation("rYaoqiAnim"))
+ --   	local nodePiaoqi2 = self.Node_top:getChildByName("Sprite_piaoqi2")
+ --   	nodePiaoqi2:runAction(cc.RepeatForever:create(piaoqiAnim2))
+
+    -- 调整卡片初始位置
+    for i=1,15 do
+        local posx = math.ceil(i/3)
+        local posy = (i-1)%3 + 1
+        local nodeStr = string.format("Node_%d_%d",posx-1,posy-1)
+        local node = self._csbNode:getChildByName(nodeStr)
+        if node  then
+            node:setPositionY(node:getPositionY()+80)
+        end
+    end
+
+    -- 自定义标题
+    local nodeTitle = self.Node_top:getChildByName("Sprite_title"):setVisible(false)
+    ccui.ImageView:create("loading/logo.png")
+    :move(nodeTitle:getPositionX(),nodeTitle:getPositionY()+30)
+    :setScale(0.3)
+    :setName("logoImg")
+    :addTo(self.Node_top)
+
+    --隐藏打鼓和飘旗
+    self:game1ActionBanner(false)
+    self.Node_top:getChildByName("Sprite_dagu"):setVisible(false)
 
    	--箭头
    	local nodeJiantou = self.Node_btnEffet:getChildByName("Sprite_arrow")
@@ -869,10 +909,14 @@ function Game1ViewLayer:updateStartButtonState( bIsStart)
 end
 
 function Game1ViewLayer:game1ActionBanner( bIsWait )
+    -- local qizhi1 = self.Node_top:getChildByName("Sprite_piaoqi")
+    -- qizhi1:setVisible(bIsWait)
+    -- local qizhi2 = self.Node_top:getChildByName("Sprite_piaoqi2")
+    -- qizhi2:setVisible(not bIsWait)
 	local qizhi1 = self.Node_top:getChildByName("Sprite_piaoqi")
-	qizhi1:setVisible(bIsWait)
-	local qizhi2 = self.Node_top:getChildByName("Sprite_piaoqi2")
-	qizhi2:setVisible(not bIsWait)
+	qizhi1:setVisible(false)
+    local qizhi2 = self.Node_top:getChildByName("Sprite_piaoqi2")
+    qizhi2:setVisible(false)
 end
 
 function Game1ViewLayer:Game1ZhongxianAudio( bIndex )
